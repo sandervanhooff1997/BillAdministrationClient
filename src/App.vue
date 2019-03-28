@@ -1,7 +1,10 @@
 <template>
   <v-app id="BillAdministration">
     <loader v-if="loading"/>
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" fixed app>
+    <v-navigation-drawer permanent fixed app>
+      <v-toolbar color="primary" dark flat>
+        <v-toolbar-title>{{title}}</v-toolbar-title>
+      </v-toolbar>
       <v-list dense>
         <template v-for="item in items">
           <v-layout v-if="item.heading" :key="item.heading" row align-center>
@@ -44,12 +47,6 @@
         </template>
       </v-list>
     </v-navigation-drawer>
-    <!-- <v-toolbar :clipped-left="$vuetify.breakpoint.lgAndUp" color="primary" dark app fixed>
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <span class="hidden-sm-and-down">{{title}}</span>
-      </v-toolbar-title>
-    </v-toolbar>-->
     <v-content>
       <router-view></router-view>
     </v-content>
@@ -59,10 +56,12 @@
 <script>
 export default {
   data: () => ({
-    dialog: false,
-    drawer: null,
-    title: "Movement Registration",
-    items: [{ text: "Map", icon: "fas fa-map-marked", to: "map" }]
+    title: "Bill Administration",
+    items: [
+      { text: "Bills", icon: "fas fa-file-invoice", to: "bills" },
+      { text: "Car Trackers", icon: "fas fa-cogs", to: "cartrackers" },
+      { text: "Vehicles", icon: "fas fa-car", to: "vehicles" }
+    ]
   }),
   props: {
     source: String
@@ -79,22 +78,5 @@ export default {
 <style lang="scss">
 #BillAdministration {
   background: white;
-}
-.bounce-enter-active {
-  animation: bounce-in 0.5s;
-}
-.bounce-leave-active {
-  animation: bounce-in 0.5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 </style>

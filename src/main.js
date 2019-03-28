@@ -5,19 +5,25 @@ import router from './router'
 import store from './vuex/store'
 import './registerServiceWorker'
 import Loader from '@/components/Loader'
-import VehicleData from '@/components/VehicleData'
-import SearchMovements from '@/components/SearchMovements'
+import Bill from '@/components/Bill'
+import Vehicle from '@/components/Vehicle'
+import RateCategory from '@/components/RateCategory'
+import OwnerCredentials from '@/components/OwnerCredentials'
+import CarTracker from '@/components/CarTracker'
 import moment from 'moment'
 
-Vue.filter('formatDate', function (value) {
+Vue.filter('date', function (value) {
   if (value) {
-    return moment(String(value)).format('MM/DD/YYYY hh:mm:ss')
+    return moment(String(value)).format('MM/DD/YYYY hh:mm:ss') + "u"
   }
 })
 
 Vue.component('loader', Loader)
-Vue.component('search-movements', SearchMovements)
-Vue.component('vehicle-data', VehicleData)
+Vue.component('bill', Bill)
+Vue.component('vehicle', Vehicle)
+Vue.component('owner-credentials', OwnerCredentials)
+Vue.component('rate-category', RateCategory)
+Vue.component('car-tracker', CarTracker)
 
 Vue.config.productionTip = false
 
