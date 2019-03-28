@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Bills from '@/views/Bills'
 import CarTrackers from '@/views/CarTrackers'
+import RateCategories from '@/views/RateCategories'
 import Vehicles from '@/views/Vehicles'
 
 Vue.use(Router)
@@ -20,7 +21,7 @@ export default new Router({
       component: Bills
     },
     {
-      path: '/cartrackers',
+      path: '/car-trackers',
       name: 'cartrackers',
       component: CarTrackers
     },
@@ -28,6 +29,11 @@ export default new Router({
       path: '/vehicles',
       name: 'vehicles',
       component: Vehicles
+    },
+    {
+      path: '/rate-categories',
+      name: 'ratecategories',
+      component: RateCategories
     },
     {
       path: '*',

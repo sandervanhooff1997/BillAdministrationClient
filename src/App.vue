@@ -60,7 +60,12 @@ export default {
     items: [
       { text: "Bills", icon: "fas fa-file-invoice", to: "bills" },
       { text: "Car Trackers", icon: "fas fa-cogs", to: "cartrackers" },
-      { text: "Vehicles", icon: "fas fa-car", to: "vehicles" }
+      { text: "Vehicles", icon: "fas fa-car", to: "vehicles" },
+      {
+        text: "Rate Categories",
+        icon: "fas fa-euro-sign",
+        to: "ratecategories"
+      }
     ]
   }),
   props: {

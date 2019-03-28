@@ -2,7 +2,7 @@
   <div>
     <v-card v-if="rateCategory" dark flat color="primary" class="mx-auto">
       <v-card-title>
-        <v-icon large left>fas fa-percentage</v-icon>
+        <v-icon large left>fas fa-euro-sign</v-icon>
         <span class="title font-weight-light">Rate Category #{{rateCategory.id}}</span>
       </v-card-title>
 
