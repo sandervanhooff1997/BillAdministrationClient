@@ -4,6 +4,10 @@
       <v-card-title>
         <v-icon large left>fas fa-cogs</v-icon>
         <span class="title font-weight-light">Cartracker #{{carTracker.id}}</span>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="carTracker = null">
+          <v-icon>fas fa-times</v-icon>
+        </v-btn>
       </v-card-title>
 
       <v-card-text class>

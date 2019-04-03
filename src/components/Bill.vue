@@ -4,6 +4,10 @@
       <v-card-title>
         <v-icon large left>fas fa-file-invoice</v-icon>
         <span class="title font-weight-light">Bill #{{bill.id}}</span>
+        <v-spacer></v-spacer>
+        <v-btn icon @click="bill = null">
+          <v-icon>fas fa-times</v-icon>
+        </v-btn>
       </v-card-title>
 
       <v-card-text class>
