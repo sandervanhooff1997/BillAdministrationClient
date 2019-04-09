@@ -1,18 +1,24 @@
 <template>
   <v-container>
-    <v-card flat>
-      <v-data-table :headers="headers" :items="vehicles" class="elevation-1">
-        <template v-slot:items="props">
-          <tr @click="selectVehicle(props.item)">
-            <td>{{ props.item.id }}</td>
-            <td>{{ props.item.licencePlate }}</td>
-          </tr>
-        </template>
-      </v-data-table>
-      <div class="mt-4" v-if="selectedVehicle">
-        <vehicle :vehicle="selectedVehicle"></vehicle>
-      </div>
-    </v-card>
+    <div v-if="vehicles">
+      <v-card flat>
+        <v-data-table :headers="headers" :items="vehicles" class="elevation-1">
+          <template v-slot:items="props">
+            <tr @click="selectVehicle(props.item)">
+              <td>{{ props.item.id }}</td>
+              <td>{{ props.item.licencePlate }}</td>
+              <td>{{ props.item.ownerCredentials[props.item.ownerCredentials.length-1].name }}</td>
+            </tr>
+          </template>
+        </v-data-table>
+        <div class="mt-4" v-if="selectedVehicle">
+          <vehicle :vehicle="selectedVehicle"></vehicle>
+        </div>
+      </v-card>
+    </div>
+    <div v-else>
+      <p>No vehicles found</p>
+    </div>
   </v-container>
 </template>
 
@@ -22,121 +28,25 @@ export default {
     return {
       headers: [
         { text: "ID #", value: "id" },
-        { text: "Licence plate", value: "licencePlate" }
+        { text: "Licence plate", value: "licencePlate" },
+        { text: "Owner", value: "ownerCredentials.name" }
       ],
-      vehicles: [
-        {
-          id: 1,
-          licencePlate: "MMXX00",
-          rateCategory: {
-            id: 1,
-            name: "Category 1",
-            price: 10.0
-          },
-          carTracker: {
-            id: 1,
-            kilometers: 12341,
-            hardware: "Intel i7",
-            isDeleted: true
-          },
-          ownerCredentials: {
-            id: 1,
-            name: "Test user",
-            isAccountDriver: true,
-            city: "Helmond",
-            postalCode: "1111XX",
-            streetName: "Horstenstraat",
-            houseNumber: 10,
-            begin: new Date(),
-            end: new Date()
-          }
-        },
-        {
-          id: 1,
-          licencePlate: "MMXX00",
-          rateCategory: {
-            id: 1,
-            name: "Category 1",
-            price: 10.0
-          },
-          carTracker: {
-            id: 1,
-            kilometers: 12341,
-            hardware: "Intel i7",
-            isDeleted: true
-          },
-          ownerCredentials: {
-            id: 1,
-            name: "Test user",
-            isAccountDriver: true,
-            city: "Helmond",
-            postalCode: "1111XX",
-            streetName: "Horstenstraat",
-            houseNumber: 10,
-            begin: new Date(),
-            end: new Date()
-          }
-        },
-        {
-          id: 1,
-          licencePlate: "MMXX00",
-          rateCategory: {
-            id: 1,
-            name: "Category 1",
-            price: 10.0
-          },
-          carTracker: {
-            id: 1,
-            kilometers: 12341,
-            hardware: "Intel i7",
-            isDeleted: true
-          },
-          ownerCredentials: {
-            id: 1,
-            name: "Test user",
-            isAccountDriver: true,
-            city: "Helmond",
-            postalCode: "1111XX",
-            streetName: "Horstenstraat",
-            houseNumber: 10,
-            begin: new Date(),
-            end: new Date()
-          }
-        },
-        {
-          id: 1,
-          licencePlate: "MMXX00",
-          rateCategory: {
-            id: 1,
-            name: "Category 1",
-            price: 10.0
-          },
-          carTracker: {
-            id: 1,
-            kilometers: 12341,
-            hardware: "Intel i7",
-            isDeleted: true
-          },
-          ownerCredentials: {
-            id: 1,
-            name: "Test user",
-            isAccountDriver: true,
-            city: "Helmond",
-            postalCode: "1111XX",
-            streetName: "Horstenstraat",
-            houseNumber: 10,
-            begin: new Date(),
-            end: new Date()
-          }
-        }
-      ],
+
       selectedVehicle: null
     };
+  },
+  computed: {
+    vehicles() {
+      return this.$store.getters.vehicles;
+    }
   },
   methods: {
     selectVehicle(vehicle) {
       this.selectedVehicle = vehicle;
     }
+  },
+  created() {
+    this.$store.dispatch("getVehicles");
   }
 };
 </script>

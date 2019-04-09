@@ -12,8 +12,8 @@
 
       <v-card-text class>
         <v-layout row wrap>
-          <v-flex xs6>Amount</v-flex>
-          <v-flex xs6>&euro; {{bill.amount}}</v-flex>
+          <v-flex xs6>Total Amount</v-flex>
+          <v-flex xs6>&euro; {{bill.totalAmount}}</v-flex>
 
           <v-flex xs6>Date</v-flex>
           <v-flex xs6>{{bill.date | date }}</v-flex>

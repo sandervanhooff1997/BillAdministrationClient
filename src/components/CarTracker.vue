@@ -13,13 +13,13 @@
       <v-card-text class>
         <v-layout row wrap>
           <v-flex xs6>Kilometers</v-flex>
-          <v-flex xs6>{{carTracker.kilometers}}</v-flex>
+          <v-flex xs6>{{carTracker.mileage}}</v-flex>
 
           <v-flex xs6>Hardware</v-flex>
           <v-flex xs6>{{carTracker.hardware }}</v-flex>
 
           <v-flex xs6>Deleted</v-flex>
-          <v-flex xs6>{{carTracker.isDeleted }}</v-flex>
+          <v-flex xs6>{{carTracker.deleted }}</v-flex>
         </v-layout>
       </v-card-text>
 

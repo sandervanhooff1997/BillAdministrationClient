@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import AxiosInstance from './axios-config'
+
+import BillModule from './modules/bill'
+import VehicleModule from './modules/vehicle'
+import CarTrackerModule from './modules/cartracker'
+import RateCategoryModule from './modules/rateCategory'
 
 Vue.use(Vuex)
 
@@ -22,7 +26,12 @@ export default new Vuex.Store({
     setLoading({ commit }, loading) {
       commit('setLoading', loading)
     }
+
   },
   modules: {
+    BillModule,
+    VehicleModule,
+    CarTrackerModule,
+    RateCategoryModule
   }
 })
