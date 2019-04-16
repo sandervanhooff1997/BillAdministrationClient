@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <add-car-tracker></add-car-tracker>
     <div v-if="carTrackers">
       <v-card flat>
         <v-data-table :headers="headers" :items="carTrackers" class="elevation-1">

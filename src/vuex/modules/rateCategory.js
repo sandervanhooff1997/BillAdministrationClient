@@ -33,7 +33,28 @@ export default {
                 }).finally(() => commit('setLoading', false))
 
             })
-        }
+        },
+        addRateCategory({ commit }, rateCategory) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                if (!rateCategory.name || !rateCategory.price)
+                    reject()
+
+                AxiosInstance.post("/ratecategory", rateCategory).then(res => {
+                    console.log(res)
+                    if (res && res.data) {
+                        resolve(res)
+                    }
+
+                    reject()
+                }).catch(err => {
+                    console.log(err)
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        },
 
     }
 }

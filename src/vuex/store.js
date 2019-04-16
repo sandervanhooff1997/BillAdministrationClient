@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import MessageModule from './modules/message'
 import BillModule from './modules/bill'
 import VehicleModule from './modules/vehicle'
 import CarTrackerModule from './modules/cartracker'
@@ -29,6 +30,7 @@ export default new Vuex.Store({
 
   },
   modules: {
+    MessageModule,
     BillModule,
     VehicleModule,
     CarTrackerModule,

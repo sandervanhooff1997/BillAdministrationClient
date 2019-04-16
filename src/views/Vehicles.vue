@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <add-vehicle></add-vehicle>
     <div v-if="vehicles">
       <v-card flat>
         <v-data-table :headers="headers" :items="vehicles" class="elevation-1">
@@ -7,7 +8,10 @@
             <tr @click="selectVehicle(props.item)">
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.licencePlate }}</td>
-              <td>{{ props.item.ownerCredentials[props.item.ownerCredentials.length-1].name }}</td>
+              <td
+                v-if="props.item.ownerCredentials && props.item.ownerCredentials.length"
+              >{{ props.item.ownerCredentials[props.item.ownerCredentials.length-1].name }}</td>
+              <td v-else>No owner</td>
             </tr>
           </template>
         </v-data-table>

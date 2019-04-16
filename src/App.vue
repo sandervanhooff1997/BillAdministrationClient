@@ -1,6 +1,7 @@
 <template>
   <v-app id="BillAdministration">
     <loader v-if="loading"/>
+    <messages></messages>
     <v-navigation-drawer permanent fixed app>
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>{{title}}</v-toolbar-title>

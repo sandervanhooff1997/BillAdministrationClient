@@ -33,7 +33,30 @@ export default {
                 }).finally(() => commit('setLoading', false))
 
             })
-        }
+        },
+        addCarTracker({ commit }, carTracker) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                if (!carTracker.hardware)
+                    reject()
+
+                AxiosInstance.post("/cartracker", {
+                    hardware: carTracker.hardware
+                }).then(res => {
+                    console.log(res)
+                    if (res && res.data) {
+                        resolve(res)
+                    }
+
+                    reject()
+                }).catch(err => {
+                    console.log(err)
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        },
 
     }
 }
