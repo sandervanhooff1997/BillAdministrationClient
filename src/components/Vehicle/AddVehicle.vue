@@ -26,32 +26,13 @@
           item-value="id"
           label="Select car tracker"
         ></v-select>
-        <v-btn color="primary" @click="save(vehicle)">Save</v-btn>
+        <v-btn color="primary" :disabled="!valid" @click="save(vehicle)">Save</v-btn>
       </v-form>
     </div>
   </div>
 </template>
 
 <script>
-/**
- * @Id
-    @GeneratedValue
-    private Long id;
-
-    private String licencePlate;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    private RateCategory rateCategory;
-
-    @OneToMany(targetEntity = CarTracker.class, cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List carTrackers = new ArrayList();
-
-    @OneToMany(targetEntity = OwnerCredentials.class, cascade = CascadeType.ALL)
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List ownerCredentials = new ArrayList();
-
- */
 export default {
   data() {
     return {
@@ -66,13 +47,11 @@ export default {
       rateCategoryRules: [v => !!v || "Rate category is required"],
       carTrackerRules: [v => !!v || "Car tracker is required"]
     };
+    carTrackers: null;
   },
   computed: {
     rateCategories() {
       return this.$store.getters.rateCategories;
-    },
-    carTrackers() {
-      return this.$store.getters.carTrackers;
     }
   },
   methods: {
@@ -82,16 +61,38 @@ export default {
     cancel() {
       this.adding = false;
     },
+    resetForm() {
+      this.vehicle = {
+        licencePlate: null,
+        rateCategory: null,
+        carTracker: null
+      };
+      this.adding = false;
+    },
     save(vehicle) {
       this.$store.dispatch("addVehicle", vehicle).then(() => {
-        this.vehicle = null;
+        this.resetForm();
+        this.$store.dispatch("successMessage", "Vehicle created");
         this.$store.dispatch("getVehicles");
       });
     }
   },
   created() {
-    this.$store.dispatch("getRateCategories");
-    this.$store.dispatch("getCarTrackers");
+    this.$store
+      .dispatch("getRateCategories")
+      .then(res => {})
+      .catch(err =>
+        this.$store.dispatch("errorMessage", "Error getting rate categories")
+      );
+
+    this.$store
+      .dispatch("getCarTrackersUnused")
+      .then(res => {
+        this.carTrackers = res;
+      })
+      .catch(err =>
+        this.$store.dispatch("errorMessage", "Error getting cartrackers")
+      );
   }
 };
 </script>

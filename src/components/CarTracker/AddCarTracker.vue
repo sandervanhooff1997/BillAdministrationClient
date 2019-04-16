@@ -12,7 +12,7 @@
           label="Hardware"
           required
         ></v-text-field>
-        <v-btn color="primary" @click="save(carTracker)">Save</v-btn>
+        <v-btn color="primary" :disabled="!valid" @click="save(carTracker)">Save</v-btn>
       </v-form>
     </div>
   </div>
@@ -42,10 +42,15 @@ export default {
       this.adding = false;
     },
     save(carTracker) {
-      this.$store.dispatch("addCarTracker", carTracker).then(() => {
-        this.resetForm();
-        this.$store.dispatch("getCarTrackers");
-      });
+      this.$store
+        .dispatch("addCarTracker", carTracker)
+        .then(() => {
+          this.resetForm();
+          this.$store.dispatch("getCarTrackers");
+        })
+        .catch(err =>
+          this.$store.dispatch("errorMessage", "Error getting car trackers")
+        );
     }
   }
 };

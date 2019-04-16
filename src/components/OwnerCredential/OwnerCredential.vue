@@ -49,7 +49,7 @@ export default {
   props: ["ownerCredentials", "multiple"],
   methods: {
     edit(ownerCredentials) {
-      console.log(ownerCredentials);
+      ownerCredentials;
     }
   },
   computed: {

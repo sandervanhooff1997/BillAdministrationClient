@@ -20,9 +20,7 @@ export default {
                 commit('setLoading', true)
 
                 AxiosInstance.get("/vehicle").then(res => {
-                    console.log(res)
                     if (res && res.data) {
-                        console.log(res)
                         // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
                         commit('setVehicles', res.data)
                         resolve(res.data)
@@ -30,7 +28,6 @@ export default {
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 
@@ -48,14 +45,12 @@ export default {
                     rateCategoryId: vehicle.rateCategory,
                     carTrackerId: vehicle.carTracker
                 }).then(res => {
-                    console.log(res)
                     if (res && res.data) {
                         resolve(res)
                     }
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 

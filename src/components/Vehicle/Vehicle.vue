@@ -27,11 +27,11 @@
             :car-tracker="vehicle.carTracker"
           ></car-tracker>
 
-          <owner-credentials
+          <owner-credential
             class="mt-2 ml-4"
             v-if="vehicle.ownerCredentials"
             :owner-credentials="vehicle.ownerCredentials"
-          ></owner-credentials>
+          ></owner-credential>
         </v-layout>
       </v-card-text>
 
@@ -47,7 +47,7 @@ export default {
   props: ["vehicle"],
   methods: {
     edit(vehicle) {
-      console.log(vehicle);
+      vehicle;
     }
   }
 };

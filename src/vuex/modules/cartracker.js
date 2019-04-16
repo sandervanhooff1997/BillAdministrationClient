@@ -28,7 +28,23 @@ export default {
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        },
+        getCarTrackersUnused({ commit }) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                AxiosInstance.get("/cartracker/unused").then(res => {
+                    if (res && res.data) {
+                        // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
+                        resolve(res.data)
+                    }
+
+                    reject()
+                }).catch(err => {
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 
@@ -44,14 +60,12 @@ export default {
                 AxiosInstance.post("/cartracker", {
                     hardware: carTracker.hardware
                 }).then(res => {
-                    console.log(res)
                     if (res && res.data) {
                         resolve(res)
                     }
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 

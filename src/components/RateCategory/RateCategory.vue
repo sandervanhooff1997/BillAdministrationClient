@@ -32,12 +32,8 @@
 export default {
   props: ["rateCategory"],
   metdhods: {
-    edit(rateCategory) {
-      console.log(rateCategory);
-    },
-    delete(rateCategory) {
-      console.log(rateCategory);
-    }
+    edit(rateCategory) {},
+    delete(rateCategory) {}
   }
 };
 </script>

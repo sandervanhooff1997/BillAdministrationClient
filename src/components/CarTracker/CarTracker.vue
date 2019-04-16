@@ -34,9 +34,7 @@
 export default {
   props: ["carTracker"],
   metdhods: {
-    edit(carTracker) {
-      console.log(carTracker);
-    }
+    edit(carTracker) {}
   }
 };
 </script>

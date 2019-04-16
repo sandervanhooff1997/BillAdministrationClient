@@ -4,6 +4,7 @@ import Bills from '@/views/Bills'
 import CarTrackers from '@/views/CarTrackers'
 import RateCategories from '@/views/RateCategories'
 import Vehicles from '@/views/Vehicles'
+import OwnerCredentials from '@/views/OwnerCredentials'
 
 Vue.use(Router)
 
@@ -34,6 +35,11 @@ export default new Router({
       path: '/rate-categories',
       name: 'ratecategories',
       component: RateCategories
+    },
+    {
+      path: '/owner-credentials',
+      name: 'ownercredentials',
+      component: OwnerCredentials
     },
     {
       path: '*',

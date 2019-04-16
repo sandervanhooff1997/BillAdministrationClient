@@ -28,7 +28,6 @@ export default {
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 
@@ -42,14 +41,12 @@ export default {
                     reject()
 
                 AxiosInstance.post("/ratecategory", rateCategory).then(res => {
-                    console.log(res)
                     if (res && res.data) {
                         resolve(res)
                     }
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 

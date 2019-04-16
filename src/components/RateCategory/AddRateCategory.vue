@@ -20,7 +20,7 @@
           prefix="€"
           required
         ></v-text-field>
-        <v-btn color="primary" @click="save(rateCategory)">Save</v-btn>
+        <v-btn color="primary" :disabled="!valid" @click="save(rateCategory)">Save</v-btn>
       </v-form>
     </div>
   </div>
@@ -56,7 +56,6 @@ export default {
       this.adding = false;
     },
     save(rateCategory) {
-      console.log(rateCategory);
       this.$store
         .dispatch("addRateCategory", rateCategory)
         .then(() => {

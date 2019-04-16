@@ -66,7 +66,12 @@ export default {
         to: "ratecategories"
       },
       { text: "Car Trackers", icon: "fas fa-cogs", to: "cartrackers" },
-      { text: "Vehicles", icon: "fas fa-car", to: "vehicles" }
+      { text: "Vehicles", icon: "fas fa-car", to: "vehicles" },
+      {
+        text: "Owner Credentials",
+        icon: "fas fa-users",
+        to: "ownercredentials"
+      }
     ]
   }),
   props: {

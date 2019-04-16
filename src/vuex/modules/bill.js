@@ -20,7 +20,7 @@ export default {
                 commit('setLoading', true)
 
                 AxiosInstance.get("/bill").then(res => {
-                    console.log(res)
+                    (res)
                     if (res && res.data) {
                         res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
                         commit('setBills', res.data)
@@ -29,7 +29,7 @@ export default {
 
                     reject()
                 }).catch(err => {
-                    console.log(err)
+                    (err)
                     reject(err)
                 }).finally(() => commit('setLoading', false))
 
