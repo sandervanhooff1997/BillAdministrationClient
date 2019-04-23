@@ -21,8 +21,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="accent" @click="edit(rateCategory)">Edit</v-btn>
-        <v-btn color="error" @click="edit(rateCategory)">Delete</v-btn>
+        <edit-rate-category></edit-rate-category>
       </v-card-actions>
     </v-card>
   </div>
@@ -30,10 +29,10 @@
 
 <script>
 export default {
-  props: ["rateCategory"],
-  metdhods: {
-    edit(rateCategory) {},
-    delete(rateCategory) {}
+  computed: {
+    rateCategory() {
+      return this.$store.getters.rateCategory;
+    }
   }
 };
 </script>

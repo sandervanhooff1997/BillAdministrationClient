@@ -28,8 +28,14 @@ Vue.component('rate-category', RateCategory)
 import AddRateCategory from '@/components/RateCategory/AddRateCategory'
 Vue.component('add-rate-category', AddRateCategory)
 
+import EditRateCategory from '@/components/RateCategory/EditRateCategory'
+Vue.component('edit-rate-category', EditRateCategory)
+
 import OwnerCredential from '@/components/OwnerCredential/OwnerCredential'
 Vue.component('owner-credential', OwnerCredential)
+
+import AddOwnerCredential from '@/components/OwnerCredential/AddOwnerCredential'
+Vue.component('add-owner-credential', AddOwnerCredential)
 
 import CarTracker from '@/components/CarTracker/CarTracker'
 Vue.component('car-tracker', CarTracker)

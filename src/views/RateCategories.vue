@@ -8,13 +8,11 @@
             <tr @click="selectRateCategory(props.item)">
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.name }}</td>
-              <td>{{ props.item.price }}</td>
+              <td>&euro; {{ props.item.price }}</td>
             </tr>
           </template>
         </v-data-table>
-        <div class="mt-4" v-if="selectedRateCategory">
-          <rate-category :rate-category="selectedRateCategory"></rate-category>
-        </div>
+        <rate-category class="mt-4" v-if="rateCategory"></rate-category>
       </v-card>
     </div>
     <div v-else>
@@ -38,11 +36,14 @@ export default {
   computed: {
     rateCategories() {
       return this.$store.getters.rateCategories;
+    },
+    rateCategory() {
+      return this.$store.getters.rateCategory;
     }
   },
   methods: {
     selectRateCategory(rateCategory) {
-      this.selectedRateCategory = rateCategory;
+      this.$store.commit("setRateCategory", rateCategory);
     }
   },
   created() {

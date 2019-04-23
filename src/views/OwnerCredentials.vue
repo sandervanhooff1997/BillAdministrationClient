@@ -1,22 +1,26 @@
 <template>
   <v-container>
-    <add-car-tracker></add-car-tracker>
-    <div v-if="carTrackers">
+    <add-owner-credential></add-owner-credential>
+    <div v-if="ownerCredentials">
       <v-card flat>
-        <v-data-table :headers="headers" :items="carTrackers" class="elevation-1">
+        <v-data-table :headers="headers" :items="ownerCredentials" class="elevation-1">
           <template v-slot:items="props">
-            <tr @click="selectCarTracker(props.item)">
+            <tr @click="selectOwnerCredentials(props.item)">
               <td>{{ props.item.id }}</td>
-              <td>{{ props.item.mileage }}</td>
-              <td>{{ props.item.hardware }}</td>
-              <td>{{ props.item.deleted }}</td>
+              <td>{{ props.item.name }}</td>
+              <td>{{ props.item.isAccountRider }}</td>
+              <td>{{ props.item.city }}</td>
+              <td>{{ props.item.postalCode }}</td>
+              <td>{{ props.item.streetName }}</td>
+              <td>{{ props.item.houseNumber }}</td>
             </tr>
           </template>
         </v-data-table>
-        <vehicle></vehicle>
-        <div class="mt-4" v-if="selectedCarTracker">
-          <car-tracker :car-tracker="selectedCarTracker"></car-tracker>
-        </div>
+        <owner-credential
+          class="mt-4"
+          v-if="selectedOwnerCredentials"
+          :owner-credentials="[selectedOwnerCredentials]"
+        ></owner-credential>
       </v-card>
     </div>
     <div v-else>
@@ -31,26 +35,28 @@ export default {
     return {
       headers: [
         { text: "ID #", value: "id" },
-        { text: "Mileage", value: "mileage" },
-        { text: "Hardware", value: "hardware" },
-        { text: "Deleted", value: "deleted" }
+        { text: "Name", value: "name" },
+        { text: "Account Rider", value: "isAccountRider" },
+        { text: "City", value: "city" },
+        { text: "Postal code", value: "postalCode" },
+        { text: "Street name", value: "streetName" },
+        { text: "House number", value: "houseNumber" }
       ],
-
-      selectedCarTracker: null
+      selectedOwnerCredentials: null
     };
   },
   computed: {
-    carTrackers() {
-      return this.$store.getters.carTrackers;
+    ownerCredentials() {
+      return this.$store.getters.ownerCredentials;
     }
   },
   methods: {
-    selectCarTracker(carTracker) {
-      this.selectedCarTracker = carTracker;
+    selectOwnerCredentials(ownerCredentials) {
+      this.selectedOwnerCredentials = ownerCredentials;
     }
   },
   created() {
-    this.$store.dispatch("getCarTrackers");
+    this.$store.dispatch("getOwnerCredentials");
   }
 };
 </script>

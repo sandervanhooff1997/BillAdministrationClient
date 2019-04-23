@@ -16,7 +16,7 @@
           <v-flex xs6>&euro; {{bill.totalAmount}}</v-flex>
 
           <v-flex xs6>Date</v-flex>
-          <v-flex xs6>{{bill.date | date }}</v-flex>
+          <v-flex xs6>{{bill.createDate | date }}</v-flex>
 
           <v-flex xs6>Payment Status</v-flex>
           <v-flex xs6>{{bill.paymentStatus }}</v-flex>
@@ -39,8 +39,21 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="accent" @click="changePaymentStatus(bill)">Change payment status</v-btn>
-        <v-btn color="accent" @click="recalculate(bill)">Recalculate</v-btn>
+        <v-menu offset-y class="mr-2" v-if="bill.paymentStatus === 'OPEN'">
+          <template v-slot:activator="{ on }">
+            <v-btn color="accent" dark v-on="on">Change payment status</v-btn>
+          </template>
+          <v-list>
+            <v-list-tile
+              v-for="(status, index) in statusses"
+              :key="index"
+              @click="changePaymentStatus(bill, status)"
+            >
+              <v-list-tile-title>{{ status}}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+
         <v-btn color="accent" @click="edit(bill)">Edit</v-btn>
       </v-card-actions>
     </v-card>
@@ -49,7 +62,28 @@
 
 <script>
 export default {
-  props: ["bill"]
+  props: ["bill"],
+  data() {
+    return {
+      statusses: ["PAYED", "CANCELLED"]
+    };
+  },
+  methods: {
+    changePaymentStatus(bill, status) {
+      if (!bill || !status) return;
+
+      bill.paymentStatus = status;
+
+      this.$store
+        .dispatch("updatePaymentStatus", bill)
+        .then(() => {
+          this.$store.dispatch("successMessage", "Payment status updated");
+        })
+        .catch(err => {
+          this.$store.dispatch("errorMessage", "Error updating payment status");
+        });
+    }
+  }
 };
 </script>
 

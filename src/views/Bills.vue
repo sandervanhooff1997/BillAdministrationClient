@@ -1,13 +1,47 @@
 <template>
   <v-container>
     <v-card flat>
-      <div v-if="bills">
-        <v-data-table :headers="headers" :items="bills" class="elevation-1">
+      <v-layout align-center justify-center row>
+        <v-flex xs12 sm3>
+          <v-select
+            :items="carTrackers"
+            clearable
+            v-model="filters.carTracker"
+            item-text="hardware"
+            item-value="id"
+            label="Select car tracker"
+          ></v-select>
+        </v-flex>
+        <v-flex xs12 sm3>
+          <v-select
+            clearable
+            :items="ownerCredentials"
+            v-model="filters.ownerCredentials"
+            item-text="name"
+            item-value="id"
+            label="Select owner credentials"
+          ></v-select>
+        </v-flex>
+        <v-flex xs12 sm3>
+          <v-select
+            clearable
+            :items="paymentStatusses"
+            v-model="filters.paymentStatus"
+            label="Select payment status"
+          ></v-select>
+        </v-flex>
+        <v-flex xs12 sm3>
+          <v-select clearable :items="months" v-model="filters.month" label="Select month"></v-select>
+        </v-flex>
+      </v-layout>
+      <div v-if="billsFiltered">
+        <v-data-table :headers="headers" :items="billsFiltered" class="elevation-1">
           <template v-slot:items="props">
             <tr @click="selectBill(props.item)">
               <td>{{ props.item.id }}</td>
-              <td>{{ props.item.totalAmount }}</td>
-              <td>{{ props.item.date | date }}</td>
+              <td>&euro; {{ props.item.totalAmount }}</td>
+              <td>{{ props.item.createDate | date }}</td>
+              <td>{{ props.item.monthName }}</td>
               <td>{{ props.item.paymentStatus }}</td>
             </tr>
           </template>
@@ -30,25 +64,67 @@ export default {
       headers: [
         { text: "ID #", value: "id" },
         { text: "Total Amount", value: "totalAmount" },
-        { text: "Date", value: "date" },
+        { text: "Date", value: "createDate" },
+        { text: "Month", value: "monthName" },
         { text: "Payment Status", value: "paymentStatus" }
       ],
-
+      filters: {
+        carTracker: null,
+        ownerCredentials: null,
+        paymentStatus: null,
+        month: null
+      },
       selectedBill: null
     };
   },
   computed: {
-    bills() {
-      return this.$store.getters.bills;
+    billsFiltered() {
+      return this.filterBills(this.$store.getters.bills);
+    },
+    months() {
+      return this.$store.getters.months;
+    },
+    paymentStatusses() {
+      return this.$store.getters.paymentStatusses;
+    },
+    carTrackers() {
+      return this.$store.getters.carTrackers;
+    },
+    ownerCredentials() {
+      return this.$store.getters.ownerCredentials;
     }
   },
   methods: {
     selectBill(bill) {
       this.selectedBill = bill;
+    },
+    filterBills(bills) {
+      let self = this;
+
+      if (this.filters.carTracker)
+        bills = bills.filter(x => x.carTracker === self.filters.carTracker);
+
+      if (this.filters.ownerCredentials)
+        bills = bills.filter(
+          x => x.ownerCredentials === self.filters.ownerCredentials
+        );
+
+      if (this.filters.paymentStatus)
+        bills = bills.filter(
+          x => x.paymentStatus === self.filters.paymentStatus
+        );
+
+      if (this.filters.month)
+        bills = bills.filter(x => x.monthName === self.filters.month);
+
+      return bills;
     }
   },
   created() {
     this.$store.dispatch("getBills");
+    this.$store.dispatch("getCarTrackers");
+    this.$store.dispatch("getRateCategories");
+    this.$store.dispatch("getOwnerCredentials");
   }
 };
 </script>

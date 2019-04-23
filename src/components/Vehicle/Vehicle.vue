@@ -37,6 +37,7 @@
 
       <v-card-actions>
         <v-btn color="accent" @click="edit(vehicle)">Edit</v-btn>
+        <v-btn color="accent" @click="recalculate(bill)">Recalculate bill</v-btn>
       </v-card-actions>
     </v-card>
   </div>

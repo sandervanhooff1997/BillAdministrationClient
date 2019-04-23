@@ -6,6 +6,7 @@ import BillModule from './modules/bill'
 import VehicleModule from './modules/vehicle'
 import CarTrackerModule from './modules/cartracker'
 import RateCategoryModule from './modules/rateCategory'
+import OwnerCredentialsModule from './modules/ownerCredentials'
 
 Vue.use(Vuex)
 
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     BillModule,
     VehicleModule,
     CarTrackerModule,
-    RateCategoryModule
+    RateCategoryModule,
+    OwnerCredentialsModule
   }
 })

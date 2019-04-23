@@ -26,6 +26,13 @@
           item-value="id"
           label="Select car tracker"
         ></v-select>
+        <v-select
+          :items="ownerCredentials"
+          v-model="vehicle.ownerCredentials"
+          item-text="name"
+          item-value="id"
+          label="Select the owner"
+        ></v-select>
         <v-btn color="primary" :disabled="!valid" @click="save(vehicle)">Save</v-btn>
       </v-form>
     </div>
@@ -39,6 +46,7 @@ export default {
       vehicle: {
         licencePlate: null,
         rateCategory: null,
+        ownerCredentials: null,
         carTracker: null
       },
       adding: false,
@@ -48,6 +56,7 @@ export default {
       carTrackerRules: [v => !!v || "Car tracker is required"]
     };
     carTrackers: null;
+    ownerCredentials: null;
   },
   computed: {
     rateCategories() {
@@ -65,6 +74,7 @@ export default {
       this.vehicle = {
         licencePlate: null,
         rateCategory: null,
+        ownerCredentials: null,
         carTracker: null
       };
       this.adding = false;
@@ -80,7 +90,6 @@ export default {
   created() {
     this.$store
       .dispatch("getRateCategories")
-      .then(res => {})
       .catch(err =>
         this.$store.dispatch("errorMessage", "Error getting rate categories")
       );
@@ -92,6 +101,15 @@ export default {
       })
       .catch(err =>
         this.$store.dispatch("errorMessage", "Error getting cartrackers")
+      );
+
+    this.$store
+      .dispatch("getOwnerCredentials")
+      .then(res => {
+        this.ownerCredentials = res;
+      })
+      .catch(err =>
+        this.$store.dispatch("errorMessage", "Error getting owner credentials")
       );
   }
 };

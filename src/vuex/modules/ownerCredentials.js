@@ -2,34 +2,27 @@ import AxiosInstance from '@/vuex/axios-config'
 
 export default {
     state: {
-        rateCategories: null,
-        rateCategory: null
+        ownerCredentials: null
     },
     getters: {
-        rateCategories(state) {
-            return state.rateCategories
-        },
-        rateCategory(state) {
-            return state.rateCategory
+        ownerCredentials(state) {
+            return state.ownerCredentials
         }
     },
     mutations: {
-        setRateCategories(state, rateCategories) {
-            state.rateCategories = rateCategories
-        },
-        setRateCategory(state, rateCategory) {
-            state.rateCategory = rateCategory
+        setOwnerCredentials(state, ownerCredentials) {
+            state.ownerCredentials = ownerCredentials
         }
     },
     actions: {
-        getRateCategories({ commit }) {
+        getOwnerCredentials({ commit }) {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)
 
-                AxiosInstance.get("/ratecategory").then(res => {
+                AxiosInstance.get("/ownercredentials").then(res => {
                     if (res && res.data) {
                         // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
-                        commit('setRateCategories', res.data)
+                        commit('setOwnerCredentials', res.data)
                         resolve(res.data)
                     }
 
@@ -40,16 +33,14 @@ export default {
 
             })
         },
-        addRateCategory({ commit }, rateCategory) {
+        getOwnerCredentialsUnused({ commit }) {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)
 
-                if (!rateCategory.name || !rateCategory.price)
-                    reject()
-
-                AxiosInstance.post("/ratecategory", rateCategory).then(res => {
+                AxiosInstance.get("/ownercredentials/unused").then(res => {
                     if (res && res.data) {
-                        resolve(res)
+                        // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
+                        resolve(res.data)
                     }
 
                     reject()
@@ -59,17 +50,19 @@ export default {
 
             })
         },
-        editRateCategory({ commit }, rateCategory) {
+        addOwnerCredentials({ commit }, ownerCredentials) {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)
 
-                if (!rateCategory.name || !rateCategory.price)
+                if (!ownerCredentials.name ||
+                    !ownerCredentials.city ||
+                    !ownerCredentials.streetName ||
+                    !ownerCredentials.houseNumber)
                     reject()
 
-                AxiosInstance.put("/ratecategory", rateCategory).then(res => {
+                AxiosInstance.post("/ownercredentials", ownerCredentials).then(res => {
                     if (res && res.data) {
-                        commit('setRateCategory', rateCategory)
-                        resolve(res)
+                        resolve(res.data)
                     }
 
                     reject()
