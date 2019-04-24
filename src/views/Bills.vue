@@ -1,39 +1,43 @@
 <template>
   <v-container>
     <v-card flat>
-      <v-layout align-center justify-center row>
-        <v-flex xs12 sm3>
-          <v-select
-            :items="carTrackers"
-            clearable
-            v-model="filters.carTracker"
-            item-text="hardware"
-            item-value="id"
-            label="Select car tracker"
-          ></v-select>
-        </v-flex>
-        <v-flex xs12 sm3>
-          <v-select
-            clearable
-            :items="ownerCredentials"
-            v-model="filters.ownerCredentials"
-            item-text="name"
-            item-value="id"
-            label="Select owner credentials"
-          ></v-select>
-        </v-flex>
-        <v-flex xs12 sm3>
-          <v-select
-            clearable
-            :items="paymentStatusses"
-            v-model="filters.paymentStatus"
-            label="Select payment status"
-          ></v-select>
-        </v-flex>
-        <v-flex xs12 sm3>
-          <v-select clearable :items="months" v-model="filters.month" label="Select month"></v-select>
-        </v-flex>
-      </v-layout>
+      <v-container fluid grid-list-sm>
+        <h1 class="headline">Filter</h1>
+        <v-layout class="mb-3" align-center justify-center row>
+          <v-flex xs12 sm3>
+            <v-select
+              :items="carTrackers"
+              clearable
+              v-model="filters.carTracker"
+              item-text="hardware"
+              item-value="id"
+              label="Select car tracker"
+            ></v-select>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-select
+              clearable
+              :items="ownerCredentials"
+              v-model="filters.ownerCredentials"
+              item-text="name"
+              item-value="id"
+              label="Select owner credentials"
+            ></v-select>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-select
+              clearable
+              :items="paymentStatusses"
+              v-model="filters.paymentStatus"
+              label="Select payment status"
+            ></v-select>
+          </v-flex>
+          <v-flex xs12 sm3>
+            <v-select clearable :items="months" v-model="filters.month" label="Select month"></v-select>
+          </v-flex>
+        </v-layout>
+      </v-container>
+
       <div v-if="billsFiltered">
         <v-data-table :headers="headers" :items="billsFiltered" class="elevation-1">
           <template v-slot:items="props">
@@ -64,7 +68,7 @@ export default {
       headers: [
         { text: "ID #", value: "id" },
         { text: "Total Amount", value: "totalAmount" },
-        { text: "Date", value: "createDate" },
+        { text: "Create date", value: "createDate" },
         { text: "Month", value: "monthName" },
         { text: "Payment Status", value: "paymentStatus" }
       ],
@@ -102,11 +106,11 @@ export default {
       let self = this;
 
       if (this.filters.carTracker)
-        bills = bills.filter(x => x.carTracker === self.filters.carTracker);
+        bills = bills.filter(x => x.carTracker.id === self.filters.carTracker);
 
       if (this.filters.ownerCredentials)
         bills = bills.filter(
-          x => x.ownerCredentials === self.filters.ownerCredentials
+          x => x.ownerCredentials.id === self.filters.ownerCredentials
         );
 
       if (this.filters.paymentStatus)
