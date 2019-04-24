@@ -2,16 +2,23 @@ import AxiosInstance from '@/vuex/axios-config'
 
 export default {
     state: {
-        vehicles: null
+        vehicles: null,
+        vehicle: null
     },
     getters: {
         vehicles(state) {
             return state.vehicles
+        },
+        vehicle(state) {
+            return state.vehicle
         }
     },
     mutations: {
         setVehicles(state, vehicles) {
             state.vehicles = vehicles
+        },
+        setVehicle(state, vehicle) {
+            state.vehicle = vehicle
         }
     },
     actions: {

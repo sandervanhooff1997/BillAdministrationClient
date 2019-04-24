@@ -12,7 +12,7 @@
             </tr>
           </template>
         </v-data-table>
-        <rate-category class="mt-4" v-if="rateCategory"></rate-category>
+        <rate-category class="mt-4"></rate-category>
       </v-card>
     </div>
     <div v-else>

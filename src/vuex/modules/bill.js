@@ -3,6 +3,7 @@ import AxiosInstance from '@/vuex/axios-config'
 export default {
     state: {
         bills: null,
+        bill: null,
         months: [
             "January",
             "Februari",
@@ -23,6 +24,9 @@ export default {
         bills(state) {
             return state.bills
         },
+        bill(state) {
+            return state.bill
+        },
         months(state) {
             return state.months
         },
@@ -33,6 +37,9 @@ export default {
     mutations: {
         setBills(state, bills) {
             state.bills = bills
+        },
+        setBill(state, bill) {
+            state.bill = bill
         }
     },
     actions: {

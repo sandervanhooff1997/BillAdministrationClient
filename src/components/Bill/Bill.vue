@@ -5,7 +5,7 @@
         <v-icon large left>fas fa-file-invoice</v-icon>
         <span class="title font-weight-light">Bill #{{bill.id}}</span>
         <v-spacer></v-spacer>
-        <v-btn icon @click="bill = null">
+        <v-btn icon @click="hide()">
           <v-icon>fas fa-times</v-icon>
         </v-btn>
       </v-card-title>
@@ -22,6 +22,11 @@
           <v-flex xs6>{{bill.paymentStatus }}</v-flex>
 
           <car-tracker class="mt-2 ml-4" v-if="bill.carTracker" :car-tracker="bill.carTracker"></car-tracker>
+          <owner-credential
+            class="mt-2 ml-4"
+            v-if="bill.ownerCredentials"
+            :owner-credentials="[bill.ownerCredentials]"
+          ></owner-credential>
         </v-layout>
         <v-container v-if="bill.problems && bill.problems.length" text-xs-right>
           <v-list light>
@@ -62,13 +67,20 @@
 
 <script>
 export default {
-  props: ["bill"],
   data() {
     return {
       statusses: ["PAYED", "CANCELLED"]
     };
   },
+  computed: {
+    bill() {
+      return this.$store.getters.bill;
+    }
+  },
   methods: {
+    hide() {
+      this.$store.commit("setBill", null);
+    },
     changePaymentStatus(bill, status) {
       if (!bill || !status) return;
 

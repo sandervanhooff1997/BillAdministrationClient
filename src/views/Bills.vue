@@ -43,6 +43,7 @@
           <template v-slot:items="props">
             <tr @click="selectBill(props.item)">
               <td>{{ props.item.id }}</td>
+              <td>{{ props.item.ownerCredentials.name }}</td>
               <td>&euro; {{ props.item.totalAmount }}</td>
               <td>{{ props.item.createDate | date }}</td>
               <td>{{ props.item.monthName }}</td>
@@ -50,9 +51,7 @@
             </tr>
           </template>
         </v-data-table>
-        <div class="mt-4" v-if="selectedBill">
-          <bill :bill="selectedBill"></bill>
-        </div>
+        <bill class="mt-4"></bill>
       </div>
       <div v-else>
         <p>No bills found</p>
@@ -67,6 +66,7 @@ export default {
     return {
       headers: [
         { text: "ID #", value: "id" },
+        { text: "Billed to", value: "ownerCredentials" },
         { text: "Total Amount", value: "totalAmount" },
         { text: "Create date", value: "createDate" },
         { text: "Month", value: "monthName" },
@@ -77,8 +77,7 @@ export default {
         ownerCredentials: null,
         paymentStatus: null,
         month: null
-      },
-      selectedBill: null
+      }
     };
   },
   computed: {
@@ -100,7 +99,7 @@ export default {
   },
   methods: {
     selectBill(bill) {
-      this.selectedBill = bill;
+      this.$store.commit("setBill", bill);
     },
     filterBills(bills) {
       let self = this;

@@ -14,9 +14,7 @@
           </template>
         </v-data-table>
         <vehicle></vehicle>
-        <div class="mt-4" v-if="selectedCarTracker">
-          <car-tracker :car-tracker="selectedCarTracker"></car-tracker>
-        </div>
+        <car-tracker class="mt-4"></car-tracker>
       </v-card>
     </div>
     <div v-else>
@@ -46,7 +44,7 @@ export default {
   },
   methods: {
     selectCarTracker(carTracker) {
-      this.selectedCarTracker = carTracker;
+      this.$store.commit("setCarTracker", carTracker);
     }
   },
   created() {

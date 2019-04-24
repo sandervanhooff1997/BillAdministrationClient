@@ -16,11 +16,7 @@
             </tr>
           </template>
         </v-data-table>
-        <owner-credential
-          class="mt-4"
-          v-if="selectedOwnerCredentials"
-          :owner-credentials="[selectedOwnerCredentials]"
-        ></owner-credential>
+        <owner-credential class="mt-4"></owner-credential>
       </v-card>
     </div>
     <div v-else>
@@ -52,7 +48,7 @@ export default {
   },
   methods: {
     selectOwnerCredentials(ownerCredentials) {
-      this.selectedOwnerCredentials = ownerCredentials;
+      this.$store.commit("setOwnerCredential", ownerCredentials);
     }
   },
   created() {

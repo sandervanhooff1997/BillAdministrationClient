@@ -2,16 +2,23 @@ import AxiosInstance from '@/vuex/axios-config'
 
 export default {
     state: {
-        ownerCredentials: null
+        ownerCredentials: null,
+        ownerCredential: null
     },
     getters: {
         ownerCredentials(state) {
             return state.ownerCredentials
+        },
+        ownerCredential(state) {
+            return state.ownerCredential
         }
     },
     mutations: {
         setOwnerCredentials(state, ownerCredentials) {
             state.ownerCredentials = ownerCredentials
+        },
+        setOwnerCredential(state, ownerCredential) {
+            state.ownerCredential = ownerCredential
         }
     },
     actions: {

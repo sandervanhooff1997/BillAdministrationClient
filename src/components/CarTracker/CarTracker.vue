@@ -5,7 +5,7 @@
         <v-icon large left>fas fa-cogs</v-icon>
         <span class="title font-weight-light">Cartracker #{{carTracker.id}}</span>
         <v-spacer></v-spacer>
-        <v-btn icon @click="carTracker = null">
+        <v-btn icon @click="hide()">
           <v-icon>fas fa-times</v-icon>
         </v-btn>
       </v-card-title>
@@ -32,9 +32,16 @@
 
 <script>
 export default {
-  props: ["carTracker"],
-  metdhods: {
-    edit(carTracker) {}
+  methods: {
+    edit(carTracker) {},
+    hide() {
+      this.$store.commit("setCarTracker", null);
+    }
+  },
+  computed: {
+    carTracker() {
+      return this.$store.getters.carTracker;
+    }
   }
 };
 </script>

@@ -2,17 +2,24 @@ import AxiosInstance from '@/vuex/axios-config'
 
 export default {
     state: {
-        carTrackers: null
+        carTrackers: null,
+        carTracker: null
     },
     getters: {
         carTrackers(state) {
             return state.carTrackers
+        },
+        carTracker(state) {
+            return state.carTracker
         }
     },
     mutations: {
         setCarTrackers(state, carTrackers) {
             state.carTrackers = carTrackers
-        }
+        },
+        setCarTracker(state, carTracker) {
+            state.carTracker = carTracker
+        },
     },
     actions: {
         getCarTrackers({ commit }) {

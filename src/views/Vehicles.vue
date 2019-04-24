@@ -20,9 +20,7 @@
             </tr>
           </template>
         </v-data-table>
-        <div class="mt-4" v-if="selectedVehicle">
-          <vehicle :vehicle="selectedVehicle"></vehicle>
-        </div>
+        <vehicle class="mt-4"></vehicle>
       </v-card>
     </div>
     <div v-else>
@@ -53,7 +51,7 @@ export default {
   },
   methods: {
     selectVehicle(vehicle) {
-      this.selectedVehicle = vehicle;
+      this.$store.commit("setVehicle", vehicle);
     }
   },
   created() {
