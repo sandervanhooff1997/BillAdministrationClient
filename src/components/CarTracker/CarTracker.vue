@@ -32,6 +32,7 @@
 
 <script>
 export default {
+  props: ["ct"],
   methods: {
     edit(carTracker) {},
     hide() {
@@ -40,6 +41,8 @@ export default {
   },
   computed: {
     carTracker() {
+      if (this.ct) return this.ct;
+
       return this.$store.getters.carTracker;
     }
   }

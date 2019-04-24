@@ -21,11 +21,11 @@
           <v-flex xs6>Payment Status</v-flex>
           <v-flex xs6>{{bill.paymentStatus }}</v-flex>
 
-          <car-tracker class="mt-2 ml-4" v-if="bill.carTracker" :car-tracker="bill.carTracker"></car-tracker>
+          <car-tracker class="mt-2 ml-4" v-if="bill.carTracker" :ct="bill.carTracker"></car-tracker>
           <owner-credential
             class="mt-2 ml-4"
             v-if="bill.ownerCredentials"
-            :owner-credentials="[bill.ownerCredentials]"
+            :oc="bill.ownerCredentials"
           ></owner-credential>
         </v-layout>
         <v-container v-if="bill.problems && bill.problems.length" text-xs-right>
@@ -67,6 +67,7 @@
 
 <script>
 export default {
+  props: ["b"],
   data() {
     return {
       statusses: ["PAYED", "CANCELLED"]
@@ -74,6 +75,8 @@ export default {
   },
   computed: {
     bill() {
+      if (this.b) return this.b;
+
       return this.$store.getters.bill;
     }
   },

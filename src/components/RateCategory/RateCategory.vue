@@ -29,8 +29,11 @@
 
 <script>
 export default {
+  props: ["rc"],
   computed: {
     rateCategory() {
+      if (this.rc) return this.rc;
+
       return this.$store.getters.rateCategory;
     }
   },

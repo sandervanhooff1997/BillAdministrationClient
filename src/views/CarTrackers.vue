@@ -13,7 +13,6 @@
             </tr>
           </template>
         </v-data-table>
-        <vehicle></vehicle>
         <car-tracker class="mt-4"></car-tracker>
       </v-card>
     </div>

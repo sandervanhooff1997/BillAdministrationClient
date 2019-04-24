@@ -40,6 +40,7 @@
 
 <script>
 export default {
+  props: ["oc"],
   methods: {
     edit(ownerCredentials) {
       ownerCredentials;
@@ -50,6 +51,8 @@ export default {
   },
   computed: {
     ownerCredential() {
+      if (this.oc) return this.oc;
+
       return this.$store.getters.ownerCredential;
     }
   }
