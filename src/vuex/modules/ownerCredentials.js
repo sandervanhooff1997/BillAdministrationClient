@@ -28,7 +28,6 @@ export default {
 
                 AxiosInstance.get("/ownercredentials").then(res => {
                     if (res && res.data) {
-                        // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
                         commit('setOwnerCredentials', res.data)
                         resolve(res.data)
                     }
@@ -46,7 +45,6 @@ export default {
 
                 AxiosInstance.get("/ownercredentials/unused").then(res => {
                     if (res && res.data) {
-                        // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
                         resolve(res.data)
                     }
 

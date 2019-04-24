@@ -28,7 +28,6 @@ export default {
 
                 AxiosInstance.get("/vehicle").then(res => {
                     if (res && res.data) {
-                        // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
                         commit('setVehicles', res.data)
                         resolve(res.data)
                     }

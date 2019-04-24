@@ -5,7 +5,7 @@
         <v-icon large left>fas fa-user</v-icon>
         <span class="title font-weight-light">Owner Credentials #{{ownerCredential.id}}</span>
         <v-spacer></v-spacer>
-        <v-btn icon @click="hide()">
+        <v-btn v-if="!oc" icon @click="hide()">
           <v-icon>fas fa-times</v-icon>
         </v-btn>
       </v-card-title>
@@ -24,10 +24,10 @@
           >{{ownerCredential.streetName}} {{ownerCredential.houseNumber}}, {{ownerCredential.postalCode}} {{ownerCredential.city}}</v-flex>
 
           <v-flex xs6>Begin</v-flex>
-          <v-flex xs6>{{ownerCredential.begin | date}}</v-flex>
+          <v-flex xs6>{{ownerCredential.beginFormatted | date}}</v-flex>
 
           <v-flex xs6>End</v-flex>
-          <v-flex xs6>{{ownerCredential.end | date}}</v-flex>
+          <v-flex xs6>{{ownerCredential.endFormatted | date}}</v-flex>
         </v-layout>
       </v-card-text>
 
@@ -51,7 +51,12 @@ export default {
   },
   computed: {
     ownerCredential() {
-      if (this.oc) return this.oc;
+      if (this.oc) {
+        // return last element from array if its an array
+        if (Array.isArray(this.oc)) return this.oc[this.oc.length - 1];
+
+        return this.oc;
+      }
 
       return this.$store.getters.ownerCredential;
     }

@@ -28,7 +28,6 @@ export default {
 
                 AxiosInstance.get("/ratecategory").then(res => {
                     if (res && res.data) {
-                        // res.data.forEach(x => x.date = x.date.replace("[UTC]", ""));
                         commit('setRateCategories', res.data)
                         resolve(res.data)
                     }

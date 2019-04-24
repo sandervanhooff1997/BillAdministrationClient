@@ -45,7 +45,7 @@
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.ownerCredentials.name }}</td>
               <td>&euro; {{ props.item.totalAmount }}</td>
-              <td>{{ props.item.createDate | date }}</td>
+              <td>{{ props.item.createDateFormatted | date }}</td>
               <td>{{ props.item.monthName }}</td>
               <td>{{ props.item.paymentStatus }}</td>
             </tr>

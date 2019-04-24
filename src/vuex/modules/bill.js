@@ -50,7 +50,6 @@ export default {
                 AxiosInstance.get("/bill").then(res => {
 
                     if (res && res.data) {
-                        res.data.forEach(x => x.createDate = x.createDate.replace("[UTC]", ""));
                         commit('setBills', res.data)
                         resolve(res.data)
                     }

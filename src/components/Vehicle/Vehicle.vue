@@ -5,7 +5,7 @@
         <v-icon large left>fas fa-car</v-icon>
         <span class="title font-weight-light">Vehicle #{{vehicle.id}}</span>
         <v-spacer></v-spacer>
-        <v-btn icon @click="hide()">
+        <v-btn v-if="!v" icon @click="hide()">
           <v-icon>fas fa-times</v-icon>
         </v-btn>
       </v-card-title>
@@ -19,11 +19,19 @@
 
           <car-tracker class="mt-2 ml-4" v-if="vehicle.carTracker" :ct="vehicle.carTracker"></car-tracker>
 
-          <owner-credential
-            class="mt-2 ml-4"
-            v-if="vehicle.ownerCredentials"
-            :oc="vehicle.ownerCredentials"
-          ></owner-credential>
+          <v-tabs v-model="active" color="primary" dark slider-color="warning">
+            <v-tab
+              v-for="(ownerCredential, index) in vehicle.ownerCredentials"
+              :key="`tab-${index}`"
+              ripple
+            >{{ownerCredential.name}}</v-tab>
+            <v-tab-item
+              v-for="(ownerCredential, index) in vehicle.ownerCredentials"
+              :key="`tab-item-${index}`"
+            >
+              <owner-credential class="mt-2 ml-4" :oc="ownerCredential"></owner-credential>
+            </v-tab-item>
+          </v-tabs>
         </v-layout>
       </v-card-text>
 
@@ -52,6 +60,11 @@
 <script>
 export default {
   props: ["v"],
+  data() {
+    return {
+      active: null
+    };
+  },
   methods: {
     edit(vehicle) {
       vehicle;
