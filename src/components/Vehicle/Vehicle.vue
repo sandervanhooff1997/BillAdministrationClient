@@ -15,11 +15,23 @@
           <v-flex xs6>Licence plate</v-flex>
           <v-flex xs6>{{vehicle.licencePlate}}</v-flex>
 
-          <rate-category class="mt-2 ml-4" v-if="vehicle.rateCategory" :rc="vehicle.rateCategory"></rate-category>
+          <rate-category class="mt-4 ml-4" v-if="vehicle.rateCategory" :rc="vehicle.rateCategory"></rate-category>
 
-          <car-tracker class="mt-2 ml-4" v-if="vehicle.carTracker" :ct="vehicle.carTracker"></car-tracker>
+          <v-tabs v-model="activeCarTracker" color="primary" dark slider-color="warning">
+            <v-tab
+              v-for="(carTracker, index) in vehicle.carTrackers"
+              :key="`tab-ct-${index}`"
+              ripple
+            >{{carTracker.hardware}}</v-tab>
+            <v-tab-item
+              v-for="(carTracker, index) in vehicle.carTrackers"
+              :key="`tab-item-ct-${index}`"
+            >
+              <car-tracker class="mt-2 ml-4" v-if="carTracker" :ct="carTracker"></car-tracker>
+            </v-tab-item>
+          </v-tabs>
 
-          <v-tabs v-model="active" color="primary" dark slider-color="warning">
+          <v-tabs v-model="activeOwnerCredential" color="primary" dark slider-color="warning">
             <v-tab
               v-for="(ownerCredential, index) in vehicle.ownerCredentials"
               :key="`tab-${index}`"
@@ -40,8 +52,25 @@
       <v-card-actions>
         <!-- <v-btn color="accent" @click="edit(vehicle)">Edit</v-btn> -->
         <v-btn color="accent" @click="recalculate(bill)">Recalculate bill</v-btn>
-        <v-btn color="accent" @click="changeCarTracker()">New cartracker</v-btn>
-        <v-btn color="accent" @click="getBillsByVehicleId()" :disabled="bills">Bills</v-btn>
+
+        <v-menu offset-y class="mr-2">
+          <template v-slot:activator="{ on }">
+            <v-btn color="accent" dark :disabled="!carTrackers || !carTrackers.length" v-on="on">
+              Change Cartracker
+              <v-icon right small>fas fa-pencil-alt</v-icon>
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-tile
+              v-for="(carTracker, index) in carTrackers"
+              :key="index"
+              @click="changeCarTracker(carTracker)"
+            >
+              <v-list-tile-title>{{ carTracker.hardware}}</v-list-tile-title>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+
         <v-menu offset-y class="mr-2">
           <template v-slot:activator="{ on }">
             <v-btn
@@ -49,7 +78,10 @@
               dark
               :disabled="!ownerCredentials || !ownerCredentials.length"
               v-on="on"
-            >Transfer ownership</v-btn>
+            >
+              Transfer ownership
+              <v-icon right small>fas fa-pencil-alt</v-icon>
+            </v-btn>
           </template>
           <v-list>
             <v-list-tile
@@ -61,6 +93,11 @@
             </v-list-tile>
           </v-list>
         </v-menu>
+
+        <v-btn color="accent" @click="getBillsByVehicleId()" :disabled="bills !== null">
+          Bills
+          <v-icon right small>fas fa-eye</v-icon>
+        </v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -74,8 +111,10 @@ export default {
   components: { Bills },
   data() {
     return {
-      active: null,
+      activeOwnerCredential: null,
+      activeCarTracker: null,
       ownerCredentials: null,
+      carTrackers: null,
       bills: null
     };
   },
@@ -111,6 +150,14 @@ export default {
           );
         });
     },
+    getCarTrackersUnused() {
+      this.$store
+        .dispatch("getCarTrackersUnused")
+        .then(carTrackers => (this.carTrackers = carTrackers))
+        .catch(err => {
+          this.$store.dispatch("errorMessage", "Error getting car trackers");
+        });
+    },
     getBillsByVehicleId() {
       this.$store
         .dispatch("getBillsByVehicleId", this.vehicle.id)
@@ -120,6 +167,25 @@ export default {
         .catch(err => {
           this.$store.dispatch("errorMessage", "Error getting vehicle bills");
         });
+    },
+    changeCarTracker(ct) {
+      if (!ct) return;
+
+      let payload = {
+        vehicleId: this.vehicle.id,
+        ctId: ct.id
+      };
+
+      this.$store
+        .dispatch("changeCarTracker", payload)
+        .then(() => {
+          this.vehicle.carTrackers.push(ct);
+          this.getCarTrackersUnused();
+          this.$store.dispatch("successMessage", "Car tracker changed");
+        })
+        .catch(err => {
+          this.$store.dispatch("errorMessage", "Error changing car tracker");
+        });
     }
   },
   watch: {
@@ -127,6 +193,7 @@ export default {
       if (val) {
         this.bills = null;
         this.getOwnerCredentialsUnused();
+        this.getCarTrackersUnused();
       }
     }
   },
@@ -136,6 +203,14 @@ export default {
 
       return this.$store.getters.vehicle;
     }
+  },
+  created() {
+    this.$EventBus.$on("rateCategoryUpdated", rateCategory => {
+      console.log(rateCategory);
+      console.log(this.vehicle.rateCategory.id, rateCategory.id);
+      if (this.vehicle.rateCategory.id === rateCategory.id)
+        this.vehicle.rateCategory = rateCategory;
+    });
   }
 };
 </script>

@@ -21,7 +21,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <edit-rate-category></edit-rate-category>
+        <edit-rate-category :rc="rc"></edit-rate-category>
       </v-card-actions>
     </v-card>
   </div>

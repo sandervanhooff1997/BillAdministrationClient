@@ -48,6 +48,10 @@ export default {
   },
   created() {
     this.$store.dispatch("getRateCategories");
+
+    this.$EventBus.$on("rateCategoryUpdated", () => {
+      this.$store.dispatch("getRateCategories");
+    });
   }
 };
 </script>

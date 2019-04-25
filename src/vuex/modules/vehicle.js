@@ -102,6 +102,28 @@ export default {
                 }).finally(() => commit('setLoading', false))
 
             })
-        }
+        },
+        changeCarTracker({ commit }, payload) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                if (!payload.vehicleId || !payload.ctId) {
+                    reject()
+                    return
+                }
+                console.log(payload)
+                AxiosInstance.put(`/vehicle/changecartracker`, payload).then(res => {
+                    if (res && res.data) {
+                        resolve(res)
+                    }
+
+                    reject()
+                }).catch(err => {
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        },
+
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-4">
-    <v-btn color="accent" @click="update()" v-if="!updating">Update</v-btn>
+    <v-btn color="accent" @click="update()" v-if="!updating">Edit</v-btn>
     <div v-if="updating">
       <v-btn color="warning" class="mb-2" @click="cancel()">Cancel</v-btn>
       <v-form v-model="valid">
@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  props: ["rc"],
   data() {
     return {
       updating: false,
@@ -43,6 +44,8 @@ export default {
   },
   computed: {
     rateCategory() {
+      if (this.rc) return JSON.parse(JSON.stringify(this.rc));
+
       return JSON.parse(JSON.stringify(this.$store.getters.rateCategory));
     }
   },
@@ -62,9 +65,12 @@ export default {
       this.$store
         .dispatch("editRateCategory", rateCategory)
         .then(() => {
-          this.resetForm();
-          this.$store.dispatch("getRateCategories");
           this.$store.dispatch("successMessage", "Rate category updated");
+          this.$EventBus.$emit(
+            "rateCategoryUpdated",
+            JSON.parse(JSON.stringify(rateCategory))
+          );
+          this.resetForm();
         })
         .catch(err =>
           this.$store.dispatch("errorMessage", "Error updating Rate category")

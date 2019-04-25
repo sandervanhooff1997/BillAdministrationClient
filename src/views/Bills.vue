@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card light flat>
-      <v-container fluid grid-list-sm>
+      <v-container fluid grid-list-md>
         <h1 class="headline">Filter bills</h1>
         <v-layout class="mb-3" align-center justify-center wrap row>
           <v-flex xs12 sm6 md3>
@@ -9,19 +9,19 @@
               :items="carTrackers"
               clearable
               v-model="filters.carTracker"
-              item-text="hardware"
+              item-text="Hardware"
               item-value="id"
-              label="Select car tracker"
+              label="Car tracker"
             ></v-select>
           </v-flex>
-          <v-flex xs12 sm6 md3>
+          <v-flex xs12 sm6 md3 v-if="!bs">
             <v-select
               clearable
               :items="ownerCredentials"
               v-model="filters.ownerCredentials"
               item-text="name"
               item-value="id"
-              label="Select owner credentials"
+              label="Owner credentials"
             ></v-select>
           </v-flex>
           <v-flex xs12 sm6 md3>
@@ -29,7 +29,7 @@
               clearable
               :items="paymentStatusses"
               v-model="filters.paymentStatus"
-              label="Select payment status"
+              label="Payment status"
             ></v-select>
           </v-flex>
           <v-flex xs12 sm6 md3>
