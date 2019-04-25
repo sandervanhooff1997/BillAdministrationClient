@@ -55,6 +55,22 @@ export default {
 
             })
         },
+        getOwnerCredentialsUnusedByVehicleId({ commit }, vehicleId) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                AxiosInstance.get("/ownercredentials/unused/" + vehicleId).then(res => {
+                    if (res && res.data) {
+                        resolve(res.data)
+                    }
+
+                    reject()
+                }).catch(err => {
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        },
         addOwnerCredentials({ commit }, ownerCredentials) {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)

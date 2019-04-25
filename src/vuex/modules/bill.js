@@ -62,6 +62,20 @@ export default {
 
             })
         },
+        getBillsByVehicleId({ commit }, vehicleId) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                AxiosInstance.get("/bill/vehicle/" + vehicleId).then(res => {
+                    if (res && res.data)
+                        resolve(res.data)
+
+                    reject()
+                }).catch(err => {
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+            })
+        },
         updatePaymentStatus({ commit }, bill) {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)

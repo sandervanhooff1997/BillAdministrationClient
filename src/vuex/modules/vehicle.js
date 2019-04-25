@@ -63,5 +63,45 @@ export default {
 
             })
         },
+        updateVehicle({ commit }, v) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                if (!v)
+                    reject()
+
+                AxiosInstance.put("/vehicle", v).then(res => {
+                    if (res && res.data) {
+                        resolve(res)
+                    }
+
+                    reject()
+                }).catch(err => {
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        },
+        transferOwnershipVehicle({ commit }, payload) {
+            return new Promise((resolve, reject) => {
+                commit('setLoading', true)
+
+                if (!payload.vehicleId || !payload.ocId) {
+                    reject()
+                    return
+                }
+
+                AxiosInstance.put(`/vehicle/transferownership`, payload).then(res => {
+                    if (res && res.data) {
+                        resolve(res)
+                    }
+
+                    reject()
+                }).catch(err => {
+                    reject(err)
+                }).finally(() => commit('setLoading', false))
+
+            })
+        }
     }
 }

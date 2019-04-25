@@ -1,10 +1,10 @@
 <template>
   <v-container>
-    <v-card flat>
+    <v-card light flat>
       <v-container fluid grid-list-sm>
-        <h1 class="headline">Filter</h1>
-        <v-layout class="mb-3" align-center justify-center row>
-          <v-flex xs12 sm3>
+        <h1 class="headline">Filter bills</h1>
+        <v-layout class="mb-3" align-center justify-center wrap row>
+          <v-flex xs12 sm6 md3>
             <v-select
               :items="carTrackers"
               clearable
@@ -14,7 +14,7 @@
               label="Select car tracker"
             ></v-select>
           </v-flex>
-          <v-flex xs12 sm3>
+          <v-flex xs12 sm6 md3>
             <v-select
               clearable
               :items="ownerCredentials"
@@ -24,7 +24,7 @@
               label="Select owner credentials"
             ></v-select>
           </v-flex>
-          <v-flex xs12 sm3>
+          <v-flex xs12 sm6 md3>
             <v-select
               clearable
               :items="paymentStatusses"
@@ -32,14 +32,14 @@
               label="Select payment status"
             ></v-select>
           </v-flex>
-          <v-flex xs12 sm3>
+          <v-flex xs12 sm6 md3>
             <v-select clearable :items="months" v-model="filters.month" label="Select month"></v-select>
           </v-flex>
         </v-layout>
       </v-container>
 
       <div v-if="billsFiltered">
-        <v-data-table :headers="headers" :items="billsFiltered" class="elevation-1">
+        <v-data-table :headers="headers" :items="billsFiltered" light class="elevation-1">
           <template v-slot:items="props">
             <tr @click="selectBill(props.item)">
               <td>{{ props.item.id }}</td>
@@ -62,6 +62,7 @@
 
 <script>
 export default {
+  props: ["bs"],
   data() {
     return {
       headers: [
@@ -82,6 +83,8 @@ export default {
   },
   computed: {
     billsFiltered() {
+      if (this.bs) return this.filterBills(this.bs);
+
       return this.filterBills(this.$store.getters.bills);
     },
     months() {
@@ -124,7 +127,9 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getBills");
+    // get from store or props
+    if (!this.bs) this.$store.dispatch("getBills");
+
     this.$store.dispatch("getCarTrackers");
     this.$store.dispatch("getRateCategories");
     this.$store.dispatch("getOwnerCredentials");

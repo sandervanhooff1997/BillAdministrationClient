@@ -32,15 +32,24 @@
               <owner-credential class="mt-2 ml-4" :oc="ownerCredential"></owner-credential>
             </v-tab-item>
           </v-tabs>
+
+          <bills v-if="bills" :bs="bills" class="mt-2"></bills>
         </v-layout>
       </v-card-text>
 
       <v-card-actions>
-        <v-btn color="accent" @click="edit(vehicle)">Edit</v-btn>
+        <!-- <v-btn color="accent" @click="edit(vehicle)">Edit</v-btn> -->
         <v-btn color="accent" @click="recalculate(bill)">Recalculate bill</v-btn>
+        <v-btn color="accent" @click="changeCarTracker()">New cartracker</v-btn>
+        <v-btn color="accent" @click="getBillsByVehicleId()" :disabled="bills">Bills</v-btn>
         <v-menu offset-y class="mr-2">
           <template v-slot:activator="{ on }">
-            <v-btn color="accent" dark v-on="on">Transfer ownership</v-btn>
+            <v-btn
+              color="accent"
+              dark
+              :disabled="!ownerCredentials || !ownerCredentials.length"
+              v-on="on"
+            >Transfer ownership</v-btn>
           </template>
           <v-list>
             <v-list-tile
@@ -58,34 +67,75 @@
 </template>
 
 <script>
+import Bills from "@/views/Bills";
+
 export default {
   props: ["v"],
+  components: { Bills },
   data() {
     return {
-      active: null
+      active: null,
+      ownerCredentials: null,
+      bills: null
     };
   },
   methods: {
-    edit(vehicle) {
-      vehicle;
-    },
     hide() {
       this.$store.commit("setVehicle", null);
     },
-    transferOwnership(ownerCredential) {}
+    transferOwnership(ownerCredential) {
+      let payload = {
+        vehicleId: this.vehicle.id,
+        ocId: ownerCredential.id
+      };
+
+      this.$store
+        .dispatch("transferOwnershipVehicle", payload)
+        .then(() => {
+          this.vehicle.ownerCredentials.push(ownerCredential);
+          this.getOwnerCredentialsUnused();
+          this.$store.dispatch("successMessage", "Ownership transferred");
+        })
+        .catch(err => {
+          this.$store.dispatch("errorMessage", "Error transferring ownership");
+        });
+    },
+    getOwnerCredentialsUnused() {
+      this.$store
+        .dispatch("getOwnerCredentialsUnused")
+        .then(ownerCredentials => (this.ownerCredentials = ownerCredentials))
+        .catch(err => {
+          this.$store.dispatch(
+            "errorMessage",
+            "Error getting ownercredentials"
+          );
+        });
+    },
+    getBillsByVehicleId() {
+      this.$store
+        .dispatch("getBillsByVehicleId", this.vehicle.id)
+        .then(bills => {
+          if (bills) this.bills = bills;
+        })
+        .catch(err => {
+          this.$store.dispatch("errorMessage", "Error getting vehicle bills");
+        });
+    }
+  },
+  watch: {
+    vehicle(val) {
+      if (val) {
+        this.bills = null;
+        this.getOwnerCredentialsUnused();
+      }
+    }
   },
   computed: {
     vehicle() {
       if (this.v) return this.v;
 
       return this.$store.getters.vehicle;
-    },
-    ownerCredentials() {
-      return this.$store.getters.ownerCredentials;
     }
-  },
-  mounted() {
-    this.$store.dispatch("getOwnerCredentials");
   }
 };
 </script>
