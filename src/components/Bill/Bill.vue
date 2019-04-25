@@ -21,13 +21,16 @@
           <v-flex xs6>Payment Status</v-flex>
           <v-flex xs6>{{bill.paymentStatus }}</v-flex>
 
-          <car-tracker class="mt-2 ml-4" v-if="bill.carTracker" :ct="bill.carTracker"></car-tracker>
-
-          <owner-credential
-            class="mt-2 ml-4"
-            v-if="bill.ownerCredentials"
-            :oc="bill.ownerCredentials"
-          ></owner-credential>
+          <v-flex xs12 md6>
+            <car-tracker class="mt-2 ml-4" v-if="bill.carTracker" :ct="bill.carTracker"></car-tracker>
+          </v-flex>
+          <v-flex xs12 md6>
+            <owner-credential
+              class="mt-2 ml-4"
+              v-if="bill.ownerCredentials"
+              :oc="bill.ownerCredentials"
+            ></owner-credential>
+          </v-flex>
         </v-layout>
         <v-container v-if="bill.problems && bill.problems.length" text-xs-right>
           <v-list light>
@@ -45,9 +48,14 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-menu offset-y class="mr-2" v-if="bill.paymentStatus === 'OPEN'">
+        <v-menu offset-y class="mr-2">
           <template v-slot:activator="{ on }">
-            <v-btn color="accent" dark v-on="on">Change payment status</v-btn>
+            <v-btn
+              color="accent"
+              :disabled="bill.paymentStatus !== 'OPEN'"
+              dark
+              v-on="on"
+            >Change payment status</v-btn>
           </template>
           <v-list>
             <v-list-tile
@@ -59,8 +67,6 @@
             </v-list-tile>
           </v-list>
         </v-menu>
-
-        <v-btn color="accent" @click="edit(bill)">Edit</v-btn>
       </v-card-actions>
     </v-card>
   </div>

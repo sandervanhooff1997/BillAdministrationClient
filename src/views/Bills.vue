@@ -9,7 +9,7 @@
               :items="carTrackers"
               clearable
               v-model="filters.carTracker"
-              item-text="Hardware"
+              item-text="hardware"
               item-value="id"
               label="Car tracker"
             ></v-select>

@@ -14,38 +14,42 @@
         <v-layout row wrap>
           <v-flex xs6>Licence plate</v-flex>
           <v-flex xs6>{{vehicle.licencePlate}}</v-flex>
-
-          <rate-category class="mt-4 ml-4" v-if="vehicle.rateCategory" :rc="vehicle.rateCategory"></rate-category>
-
-          <v-tabs v-model="activeCarTracker" color="primary" dark slider-color="warning">
-            <v-tab
-              v-for="(carTracker, index) in vehicle.carTrackers"
-              :key="`tab-ct-${index}`"
-              ripple
-            >{{carTracker.hardware}}</v-tab>
-            <v-tab-item
-              v-for="(carTracker, index) in vehicle.carTrackers"
-              :key="`tab-item-ct-${index}`"
-            >
-              <car-tracker class="mt-2 ml-4" v-if="carTracker" :ct="carTracker"></car-tracker>
-            </v-tab-item>
-          </v-tabs>
-
-          <v-tabs v-model="activeOwnerCredential" color="primary" dark slider-color="warning">
-            <v-tab
-              v-for="(ownerCredential, index) in vehicle.ownerCredentials"
-              :key="`tab-${index}`"
-              ripple
-            >{{ownerCredential.name}}</v-tab>
-            <v-tab-item
-              v-for="(ownerCredential, index) in vehicle.ownerCredentials"
-              :key="`tab-item-${index}`"
-            >
-              <owner-credential class="mt-2 ml-4" :oc="ownerCredential"></owner-credential>
-            </v-tab-item>
-          </v-tabs>
-
-          <bills v-if="bills" :bs="bills" class="mt-2"></bills>
+          <v-flex xs12 md6>
+            <rate-category class="mt-4 ml-4" v-if="vehicle.rateCategory" :rc="vehicle.rateCategory"></rate-category>
+          </v-flex>
+          <v-flex xs12 md6>
+            <v-tabs v-model="activeCarTracker" color="primary" dark slider-color="warning">
+              <v-tab
+                v-for="(carTracker, index) in vehicle.carTrackers"
+                :key="`tab-ct-${index}`"
+                ripple
+              >{{carTracker.hardware}}</v-tab>
+              <v-tab-item
+                v-for="(carTracker, index) in vehicle.carTrackers"
+                :key="`tab-item-ct-${index}`"
+              >
+                <car-tracker class="mt-2 ml-4" v-if="carTracker" :ct="carTracker"></car-tracker>
+              </v-tab-item>
+            </v-tabs>
+          </v-flex>
+          <v-flex xs12 md6>
+            <v-tabs v-model="activeOwnerCredential" color="primary" dark slider-color="warning">
+              <v-tab
+                v-for="(ownerCredential, index) in vehicle.ownerCredentials"
+                :key="`tab-${index}`"
+                ripple
+              >{{ownerCredential.name}}</v-tab>
+              <v-tab-item
+                v-for="(ownerCredential, index) in vehicle.ownerCredentials"
+                :key="`tab-item-${index}`"
+              >
+                <owner-credential class="mt-2 ml-4" :oc="ownerCredential"></owner-credential>
+              </v-tab-item>
+            </v-tabs>
+          </v-flex>
+          <v-flex xs12>
+            <bills v-if="bills" :bs="bills" class="mt-2"></bills>
+          </v-flex>
         </v-layout>
       </v-card-text>
 
@@ -206,8 +210,6 @@ export default {
   },
   created() {
     this.$EventBus.$on("rateCategoryUpdated", rateCategory => {
-      console.log(rateCategory);
-      console.log(this.vehicle.rateCategory.id, rateCategory.id);
       if (this.vehicle.rateCategory.id === rateCategory.id)
         this.vehicle.rateCategory = rateCategory;
     });

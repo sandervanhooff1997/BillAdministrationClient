@@ -31,9 +31,7 @@
         </v-layout>
       </v-card-text>
 
-      <v-card-actions>
-        <v-btn color="accent" @click="edit(ownerCredential)">Edit</v-btn>
-      </v-card-actions>
+      <v-card-actions></v-card-actions>
     </v-card>
   </div>
 </template>

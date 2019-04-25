@@ -23,9 +23,7 @@
         </v-layout>
       </v-card-text>
 
-      <v-card-actions>
-        <v-btn color="accent" @click="edit(carTracker)">Edit</v-btn>
-      </v-card-actions>
+      <v-card-actions></v-card-actions>
     </v-card>
   </div>
 </template>
@@ -34,7 +32,6 @@
 export default {
   props: ["ct"],
   methods: {
-    edit(carTracker) {},
     hide() {
       this.$store.commit("setCarTracker", null);
     }
