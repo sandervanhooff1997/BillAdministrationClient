@@ -48,6 +48,7 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
+        <v-btn color="accent" @click="recalculate(bill)">Recalculate</v-btn>
         <v-menu offset-y class="mr-2">
           <template v-slot:activator="{ on }">
             <v-btn
@@ -90,6 +91,18 @@ export default {
   methods: {
     hide() {
       this.$store.commit("setBill", null);
+    },
+    recalculate(bill) {
+      if (!bill) return;
+
+      this.$store
+        .dispatch("recalculateBill", bill.id)
+        .then(() => {
+          this.$store.dispatch("successMessage", "Bill recalculated");
+        })
+        .catch(err => {
+          this.$store.dispatch("errorMessage", "Error recalculating bill");
+        });
     },
     changePaymentStatus(bill, status) {
       if (!bill || !status) return;

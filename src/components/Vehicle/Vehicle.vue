@@ -54,9 +54,7 @@
       </v-card-text>
 
       <v-card-actions>
-        <!-- <v-btn color="accent" @click="edit(vehicle)">Edit</v-btn> -->
-        <v-btn color="accent" @click="recalculate(bill)">Recalculate bill</v-btn>
-
+        <v-spacer></v-spacer>
         <v-menu offset-y class="mr-2">
           <template v-slot:activator="{ on }">
             <v-btn color="accent" dark :disabled="!carTrackers || !carTrackers.length" v-on="on">
