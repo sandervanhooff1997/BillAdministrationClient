@@ -46,7 +46,7 @@
         </v-container>
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions v-if="$userHasRole('admin')">
         <v-spacer></v-spacer>
         <v-btn color="accent" @click="recalculate(bill)">Recalculate</v-btn>
         <v-menu offset-y class="mr-2">

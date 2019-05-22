@@ -2,7 +2,7 @@
   <v-app id="BillAdministration">
     <loader v-if="loading"/>
     <messages></messages>
-    <v-navigation-drawer permanent fixed app>
+    <v-navigation-drawer permanent fixed app v-if="user">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>{{title}}</v-toolbar-title>
       </v-toolbar>
@@ -71,6 +71,11 @@ export default {
         text: "Owner Credentials",
         icon: "fas fa-users",
         to: "ownercredentials"
+      },
+      {
+        text: "Logout",
+        icon: "fas fa-sign-out-alt",
+        to: "logout"
       }
     ]
   }),
@@ -80,9 +85,25 @@ export default {
   computed: {
     loading() {
       return this.$store.getters.loading;
+    },
+    user() {
+      return this.$store.getters.user;
     }
   },
-  created() {}
+  watch: {
+    user(val) {
+      // successfull login
+      if (val) {
+        this.$router.push({
+          name: "bills"
+        });
+      } else {
+        this.$router.push({
+          name: "login"
+        });
+      }
+    }
+  }
 };
 </script>
 

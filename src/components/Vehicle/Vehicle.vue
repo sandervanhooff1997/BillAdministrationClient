@@ -96,7 +96,12 @@
           </v-list>
         </v-menu>
 
-        <v-btn color="accent" @click="getBillsByVehicleId()" :disabled="bills !== null">
+        <v-btn
+          color="accent"
+          @click="getBillsByVehicleId()"
+          v-if="$userHasRole('admin')"
+          :disabled="bills !== null"
+        >
           Bills
           <v-icon right small>fas fa-eye</v-icon>
         </v-btn>

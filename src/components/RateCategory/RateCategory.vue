@@ -20,7 +20,7 @@
         </v-layout>
       </v-card-text>
 
-      <v-card-actions>
+      <v-card-actions v-if="$userHasRole('ratecategory')">
         <v-spacer></v-spacer>
         <edit-rate-category :rc="rc"></edit-rate-category>
       </v-card-actions>

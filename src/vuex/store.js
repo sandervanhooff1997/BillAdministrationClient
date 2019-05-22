@@ -7,6 +7,7 @@ import VehicleModule from './modules/vehicle'
 import CarTrackerModule from './modules/cartracker'
 import RateCategoryModule from './modules/rateCategory'
 import OwnerCredentialsModule from './modules/ownerCredentials'
+import AuthModule from './modules/auth'
 
 Vue.use(Vuex)
 
@@ -36,6 +37,7 @@ export default new Vuex.Store({
     VehicleModule,
     CarTrackerModule,
     RateCategoryModule,
-    OwnerCredentialsModule
+    OwnerCredentialsModule,
+    AuthModule
   }
 })

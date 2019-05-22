@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import './plugins/vuetify'
 import App from './App.vue'
-import router from './router'
+import router from './router/router'
 import store from './vuex/store'
 import './registerServiceWorker'
 import moment from 'moment'
@@ -49,6 +49,13 @@ Vue.filter('date', function (value) {
     return moment(String(value)).format('MM/DD/YYYY hh:mm:ss') + "u"
   }
 })
+
+Vue.prototype.$userHasRole = (role) => {
+  let user = store.getters.user
+  if (!user || !role) return false;
+
+  return user.roles.indexOf(role) > -1
+}
 
 Vue.prototype.$EventBus = new Vue()
 

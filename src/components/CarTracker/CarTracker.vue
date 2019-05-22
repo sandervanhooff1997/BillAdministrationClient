@@ -23,7 +23,7 @@
         </v-layout>
       </v-card-text>
 
-      <v-card-actions></v-card-actions>
+      <v-card-actions v-if="$userHasRole('admin')"></v-card-actions>
     </v-card>
   </div>
 </template>
