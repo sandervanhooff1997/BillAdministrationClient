@@ -49,7 +49,7 @@ export default {
         ownerCredentials: null,
         carTracker: null
       },
-      vehicleTypes: ["Electric", "Combustion"],
+      vehicleTypes: ["ELECTRIC", "COMBUSTION"],
       adding: false,
       valid: false,
       licencePlateRules: [v => !!v || "Licenceplate is required"],
