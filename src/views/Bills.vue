@@ -131,7 +131,6 @@ export default {
     if (!this.bs) this.$store.dispatch("getBills");
 
     this.$store.dispatch("getCarTrackers");
-    this.$store.dispatch("getRateCategories");
     this.$store.dispatch("getOwnerCredentials");
   }
 };

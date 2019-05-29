@@ -22,15 +22,6 @@ Vue.component('vehicle', Vehicle)
 import AddVehicle from '@/components/Vehicle/AddVehicle'
 Vue.component('add-vehicle', AddVehicle)
 
-import RateCategory from '@/components/RateCategory/RateCategory'
-Vue.component('rate-category', RateCategory)
-
-import AddRateCategory from '@/components/RateCategory/AddRateCategory'
-Vue.component('add-rate-category', AddRateCategory)
-
-import EditRateCategory from '@/components/RateCategory/EditRateCategory'
-Vue.component('edit-rate-category', EditRateCategory)
-
 import OwnerCredential from '@/components/OwnerCredential/OwnerCredential'
 Vue.component('owner-credential', OwnerCredential)
 

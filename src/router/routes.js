@@ -1,6 +1,5 @@
 import Bills from '@/views/Bills'
 import CarTrackers from '@/views/CarTrackers'
-import RateCategories from '@/views/RateCategories'
 import Vehicles from '@/views/Vehicles'
 import OwnerCredentials from '@/views/OwnerCredentials'
 import Login from '@/views/auth/Login'
@@ -27,11 +26,6 @@ export default [
         path: '/vehicles',
         name: 'vehicles',
         component: Vehicles
-    },
-    {
-        path: '/rate-categories',
-        name: 'ratecategories',
-        component: RateCategories
     },
     {
         path: '/owner-credentials',

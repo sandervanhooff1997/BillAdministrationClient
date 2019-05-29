@@ -8,6 +8,7 @@
             <tr @click="selectVehicle(props.item)">
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.licencePlate }}</td>
+              <td>{{ props.item.vehicleType }}</td>
               <td
                 v-if="props.item.ownerCredentials && props.item.ownerCredentials.length"
               >{{ props.item.ownerCredentials[props.item.ownerCredentials.length-1].name }}</td>
@@ -16,7 +17,6 @@
                 v-if="props.item.carTrackers && props.item.carTrackers.length"
               >{{ props.item.carTrackers[props.item.carTrackers.length-1].hardware }}</td>
               <td v-else>No car tracker</td>
-              <td>{{props.item.rateCategory.name}}</td>
             </tr>
           </template>
         </v-data-table>
@@ -36,9 +36,9 @@ export default {
       headers: [
         { text: "ID #", value: "id" },
         { text: "Licence plate", value: "licencePlate" },
+        { text: "Emission type", value: "vehicleType" },
         { text: "Owner", value: "ownerCredentials.name" },
-        { text: "Car tracker", value: "carTracker.hardware" },
-        { text: "Rate category", value: "rateCategory.name" }
+        { text: "Car tracker", value: "carTracker.hardware" }
       ],
 
       selectedVehicle: null

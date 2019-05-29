@@ -43,12 +43,12 @@ export default {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)
 
-                if (!vehicle.licencePlate || !vehicle.rateCategory || !vehicle.carTracker || !vehicle.ownerCredentials)
+                if (!vehicle.licencePlate || !vehicle.vehicleType || !vehicle.carTracker || !vehicle.ownerCredentials)
                     reject()
 
                 AxiosInstance.post("/vehicle", {
                     licencePlate: vehicle.licencePlate,
-                    rateCategoryId: vehicle.rateCategory,
+                    vehicleType: vehicle.vehicleType,
                     carTrackerId: vehicle.carTracker,
                     ownerCredentialsId: vehicle.ownerCredentials
                 }).then(res => {

@@ -5,7 +5,6 @@ import MessageModule from './modules/message'
 import BillModule from './modules/bill'
 import VehicleModule from './modules/vehicle'
 import CarTrackerModule from './modules/cartracker'
-import RateCategoryModule from './modules/rateCategory'
 import OwnerCredentialsModule from './modules/ownerCredentials'
 import AuthModule from './modules/auth'
 
@@ -36,7 +35,6 @@ export default new Vuex.Store({
     BillModule,
     VehicleModule,
     CarTrackerModule,
-    RateCategoryModule,
     OwnerCredentialsModule,
     AuthModule
   }

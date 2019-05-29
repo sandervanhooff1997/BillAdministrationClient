@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-card
-      v-if="ownerCredential && $userHasRole('admin')"
-      dark
-      flat
-      color="primary"
-      class="mx-auto"
-    >
+    <v-card v-if="ownerCredential" dark flat color="primary" class="mx-auto">
       <v-card-title>
         <v-icon large left>fas fa-user</v-icon>
         <span class="title font-weight-light">Owner Credentials #{{ownerCredential.id}}</span>

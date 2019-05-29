@@ -13,11 +13,11 @@
           required
         ></v-text-field>
         <v-select
-          :items="rateCategories"
-          v-model="vehicle.rateCategory"
-          item-text="name"
-          item-value="id"
-          label="Select rate category"
+          :items="vehicleTypes"
+          v-model="vehicle.vehicleType"
+          item-text="vehicleType"
+          item-value="vehicleType"
+          label="Select vehicle type"
         ></v-select>
         <v-select
           :items="carTrackers"
@@ -45,23 +45,18 @@ export default {
     return {
       vehicle: {
         licencePlate: null,
-        rateCategory: null,
+        vehicleType: null,
         ownerCredentials: null,
         carTracker: null
       },
+      vehicleTypes: ["Electric", "Combustion"],
       adding: false,
       valid: false,
       licencePlateRules: [v => !!v || "Licenceplate is required"],
-      rateCategoryRules: [v => !!v || "Rate category is required"],
       carTrackerRules: [v => !!v || "Car tracker is required"]
     };
     carTrackers: null;
     ownerCredentials: null;
-  },
-  computed: {
-    rateCategories() {
-      return this.$store.getters.rateCategories;
-    }
   },
   methods: {
     add() {
@@ -73,7 +68,7 @@ export default {
     resetForm() {
       this.vehicle = {
         licencePlate: null,
-        rateCategory: null,
+        vehicleType: null,
         ownerCredentials: null,
         carTracker: null
       };
@@ -88,12 +83,6 @@ export default {
     }
   },
   created() {
-    this.$store
-      .dispatch("getRateCategories")
-      .catch(err =>
-        this.$store.dispatch("errorMessage", "Error getting rate categories")
-      );
-
     this.$store
       .dispatch("getCarTrackersUnused")
       .then(res => {

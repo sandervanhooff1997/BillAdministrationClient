@@ -14,9 +14,9 @@
         <v-layout row wrap>
           <v-flex xs6>Licence plate</v-flex>
           <v-flex xs6>{{vehicle.licencePlate}}</v-flex>
-          <v-flex xs12 md6>
-            <rate-category class="mt-4 ml-4" v-if="vehicle.rateCategory" :rc="vehicle.rateCategory"></rate-category>
-          </v-flex>
+          <v-flex xs6>Emission type</v-flex>
+          <v-flex xs6>{{vehicle.vehicleType}}</v-flex>
+          <v-flex xs12 md6></v-flex>
           <v-flex xs12 md6>
             <v-tabs v-model="activeCarTracker" color="primary" dark slider-color="warning">
               <v-tab
@@ -210,12 +210,6 @@ export default {
 
       return this.$store.getters.vehicle;
     }
-  },
-  created() {
-    this.$EventBus.$on("rateCategoryUpdated", rateCategory => {
-      if (this.vehicle.rateCategory.id === rateCategory.id)
-        this.vehicle.rateCategory = rateCategory;
-    });
   }
 };
 </script>
