@@ -6,40 +6,65 @@
       <v-form v-model="valid">
         <h3 class="title">New owner credentials</h3>
         <v-text-field
-          :rules="requiredRules"
+          v-validate="'required'"
           v-model="ownerCredentials.name"
           clearable
           label="Name"
+          name="name"
           required
         ></v-text-field>
+        <span class="red--text">{{ errors.first('name') }}</span>
         <v-text-field
-          :rules="requiredRules"
+          v-validate="'required'"
           v-model="ownerCredentials.city"
           clearable
           label="City"
           required
+          name="city"
         ></v-text-field>
+        <span class="red--text">{{ errors.first('city') }}</span>
         <v-text-field
-          :rules="requiredRules"
+          v-validate="'required|max:9|min:9'"
+          v-model="ownerCredentials.bsn"
+          number
+          min="9"
+          max="9"
+          type="number"
+          placeholder="000000000"
+          clearable
+          label="BSN"
+          required
+          name="bsn"
+        ></v-text-field>
+        <span class="red--text">{{ errors.first('bsn') }}</span>
+        <v-text-field
+          v-validate="'required|min:6|max:6'"
           v-model="ownerCredentials.postalCode"
           clearable
           label="Postal code"
           required
+          name="postalcode"
         ></v-text-field>
+        <span class="red--text">{{ errors.first('postalcode') }}</span>
         <v-text-field
-          :rules="requiredRules"
+          v-validate="'required'"
           v-model="ownerCredentials.streetName"
           clearable
           label="Street name"
+          name="street"
           required
         ></v-text-field>
+        <span class="red--text">{{ errors.first('street') }}</span>
         <v-text-field
-          :rules="houseNumberRules"
+          v-validate="'required'"
           v-model="ownerCredentials.houseNumber"
           clearable
+          type="number"
           label="House number"
           required
+          name="housenumber"
         ></v-text-field>
+        <span class="red--text">{{ errors.first('housenumber') }}</span>
 
         <v-btn color="primary" :disabled="!valid" @click="save(ownerCredentials)">Save</v-btn>
       </v-form>
@@ -53,6 +78,7 @@ export default {
     return {
       ownerCredentials: {
         name: null,
+        bsn: null,
         city: null,
         postalCode: null,
         name: null,
@@ -60,12 +86,7 @@ export default {
         houseNumber: null
       },
       adding: false,
-      valid: false,
-      requiredRules: [v => !!v || "Hardware is required"],
-      houseNumberRules: [
-        v => !isNaN(v) || "Housenumber must be a number",
-        v => !!v || "Housenumber is required"
-      ]
+      valid: false
     };
   },
   methods: {
@@ -73,6 +94,7 @@ export default {
       this.ownerCredentials = {
         name: null,
         city: null,
+        bsn: null,
         postalCode: null,
         name: null,
         streetName: null,

@@ -76,6 +76,7 @@ export default {
                 commit('setLoading', true)
 
                 if (!ownerCredentials.name ||
+                    !ownerCredentials.bsn ||
                     !ownerCredentials.city ||
                     !ownerCredentials.streetName ||
                     !ownerCredentials.houseNumber)

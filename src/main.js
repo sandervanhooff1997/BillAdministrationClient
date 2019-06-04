@@ -5,6 +5,9 @@ import router from './router/router'
 import store from './vuex/store'
 import './registerServiceWorker'
 import moment from 'moment'
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate)
 
 // custom vue components
 import Loader from '@/components/Loader'
@@ -27,6 +30,24 @@ Vue.component('owner-credential', OwnerCredential)
 
 import AddOwnerCredential from '@/components/OwnerCredential/AddOwnerCredential'
 Vue.component('add-owner-credential', AddOwnerCredential)
+
+import Roads from '@/components/Taxes/Road/Roads'
+Vue.component('roads', Roads)
+
+import Road from '@/components/Taxes/Road/Road'
+Vue.component('road', Road)
+
+import AddRoad from '@/components/Taxes/Road/AddRoad'
+Vue.component('add-road', AddRoad)
+
+import Prices from '@/components/Taxes/Price/Prices'
+Vue.component('prices', Prices)
+
+import Price from '@/components/Taxes/Price/Price'
+Vue.component('price', Price)
+
+import AddPrice from '@/components/Taxes/Price/AddPrice'
+Vue.component('add-price', AddPrice)
 
 import CarTracker from '@/components/CarTracker/CarTracker'
 Vue.component('car-tracker', CarTracker)

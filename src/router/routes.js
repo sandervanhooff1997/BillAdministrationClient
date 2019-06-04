@@ -4,6 +4,7 @@ import Vehicles from '@/views/Vehicles'
 import OwnerCredentials from '@/views/OwnerCredentials'
 import Login from '@/views/auth/Login'
 import Logout from '@/views/auth/Logout'
+import Taxes from '@/views/Taxes'
 
 export default [
     {
@@ -41,6 +42,11 @@ export default [
         path: '/logout',
         name: 'logout',
         component: Logout
+    },
+    {
+        path: '/taxes',
+        name: 'taxes',
+        component: Taxes
     },
     {
         path: '*',

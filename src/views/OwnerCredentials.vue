@@ -8,11 +8,8 @@
             <tr @click="selectOwnerCredentials(props.item)">
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.name }}</td>
+              <td>{{ props.item.bsn }}</td>
               <td>{{ props.item.isAccountRider }}</td>
-              <td>{{ props.item.city }}</td>
-              <td>{{ props.item.postalCode }}</td>
-              <td>{{ props.item.streetName }}</td>
-              <td>{{ props.item.houseNumber }}</td>
             </tr>
           </template>
         </v-data-table>
@@ -32,11 +29,8 @@ export default {
       headers: [
         { text: "ID #", value: "id" },
         { text: "Name", value: "name" },
-        { text: "Account Rider", value: "isAccountRider" },
-        { text: "City", value: "city" },
-        { text: "Postal code", value: "postalCode" },
-        { text: "Street name", value: "streetName" },
-        { text: "House number", value: "houseNumber" }
+        { text: "BSN", value: "bsn" },
+        { text: "Account Rider", value: "isAccountRider" }
       ],
       selectedOwnerCredentials: null
     };

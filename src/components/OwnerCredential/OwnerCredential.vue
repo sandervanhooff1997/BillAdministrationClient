@@ -15,6 +15,9 @@
           <v-flex xs6>Name</v-flex>
           <v-flex xs6>{{ownerCredential.name}}</v-flex>
 
+          <v-flex xs6>BSN</v-flex>
+          <v-flex xs6>{{ownerCredential.bsn}}</v-flex>
+
           <v-flex xs6>Is account driver</v-flex>
           <v-flex xs6>{{ownerCredential.accountRider}}</v-flex>
 

@@ -61,6 +61,7 @@ export default {
     items: [
       { text: "Bills", icon: "fas fa-file-invoice", to: "bills" },
 
+      { text: "Taxes", icon: "fas fa-euro-sign", to: "taxes" },
       { text: "Car Trackers", icon: "fas fa-cogs", to: "cartrackers" },
       { text: "Vehicles", icon: "fas fa-car", to: "vehicles" },
       {
