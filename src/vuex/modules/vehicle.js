@@ -124,6 +124,19 @@ export default {
 
             })
         },
+        async getOwnershipHistory({ commit }, licencePlate) {
+            if (!licencePlate) throw "No licenseplate specified";
 
+            try {
+                commit('setLoading', true);
+                let res = await AxiosInstance.get("/ownershiphistory/" + licencePlate);
+                return res.data;
+            } catch (e) {
+                throw e;
+            } finally {
+                commit('setLoading', false);
+            }
+
+        }
     }
 }

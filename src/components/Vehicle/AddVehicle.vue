@@ -55,12 +55,25 @@ export default {
       licencePlateRules: [v => !!v || "Licenceplate is required"],
       carTrackerRules: [v => !!v || "Car tracker is required"]
     };
-    carTrackers: null;
-    ownerCredentials: null;
+    carTrackers: [];
+    ownerCredentials: [];
   },
   methods: {
-    add() {
-      this.adding = true;
+    async add() {
+      try {
+        let carTrackers = await this.$store.dispatch("getCarTrackersUnused");
+        this.carTrackers = carTrackers;
+
+        let ownerCredentials = await this.$store.dispatch(
+          "getOwnerCredentials"
+        );
+        this.ownerCredentials = ownerCredentials;
+
+        this.adding = true;
+      } catch (e) {
+        console.log(e);
+        this.$store.dispatch("errorMessage", "Error getting data");
+      }
     },
     cancel() {
       this.adding = false;
@@ -81,25 +94,6 @@ export default {
         this.$store.dispatch("getVehicles");
       });
     }
-  },
-  created() {
-    this.$store
-      .dispatch("getCarTrackersUnused")
-      .then(res => {
-        this.carTrackers = res;
-      })
-      .catch(err =>
-        this.$store.dispatch("errorMessage", "Error getting cartrackers")
-      );
-
-    this.$store
-      .dispatch("getOwnerCredentials")
-      .then(res => {
-        this.ownerCredentials = res;
-      })
-      .catch(err =>
-        this.$store.dispatch("errorMessage", "Error getting owner credentials")
-      );
   }
 };
 </script>

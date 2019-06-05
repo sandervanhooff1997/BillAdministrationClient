@@ -9,10 +9,7 @@
               <td>{{ props.item.id }}</td>
               <td>{{ props.item.licencePlate }}</td>
               <td>{{ props.item.vehicleType }}</td>
-              <td
-                v-if="props.item.ownerCredentials && props.item.ownerCredentials.length"
-              >{{ props.item.ownerCredentials[props.item.ownerCredentials.length-1].name }}</td>
-              <td v-else>No owner</td>
+              <td>{{ props.item.ownerCredentials.name }}</td>
               <td
                 v-if="props.item.carTrackers && props.item.carTrackers.length"
               >{{ props.item.carTrackers[props.item.carTrackers.length-1].hardware }}</td>

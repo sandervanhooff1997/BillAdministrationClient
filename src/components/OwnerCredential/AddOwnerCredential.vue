@@ -1,7 +1,7 @@
-\<template>
+<template>
   <div class="mb-4">
     <v-btn color="accent" @click="add()" v-if="!adding">Add</v-btn>
-    <div v-if="adding">
+    <div v-show="adding">
       <v-btn color="warning" class="mb-2" @click="cancel()">Cancel</v-btn>
       <v-form v-model="valid">
         <h3 class="title">New owner credentials</h3>

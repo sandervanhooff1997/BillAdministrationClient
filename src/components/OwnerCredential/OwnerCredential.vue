@@ -25,12 +25,6 @@
           <v-flex
             xs6
           >{{ownerCredential.streetName}} {{ownerCredential.houseNumber}}, {{ownerCredential.postalCode}} {{ownerCredential.city}}</v-flex>
-
-          <v-flex xs6>Begin</v-flex>
-          <v-flex xs6>{{ownerCredential.beginFormatted | date}}</v-flex>
-
-          <v-flex xs6>End</v-flex>
-          <v-flex xs6>{{ownerCredential.endFormatted | date}}</v-flex>
         </v-layout>
       </v-card-text>
 

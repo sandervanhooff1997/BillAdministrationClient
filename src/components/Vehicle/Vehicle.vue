@@ -11,12 +11,28 @@
       </v-card-title>
 
       <v-card-text class>
-        <v-layout row wrap>
+        <v-timeline v-if="ownershipHistory">
+          <v-btn color="accent" @click="ownershipHistory = null">close</v-btn>
+          <v-timeline-item
+            v-for="owner in ownershipHistory"
+            :key="owner.id"
+            color="red lighten-2"
+            large
+          >
+            <template v-slot:opposite>
+              <span>
+                {{owner.beginFormatted}}
+                <template v-if="owner.end">until {{owner.endFormatted}}</template>
+              </span>
+            </template>
+            <owner-credential :oc="owner.ownerCredentials"></owner-credential>
+          </v-timeline-item>
+        </v-timeline>
+        <v-layout row wrap v-if="!ownershipHistory">
           <v-flex xs6>Licence plate</v-flex>
           <v-flex xs6>{{vehicle.licencePlate}}</v-flex>
           <v-flex xs6>Emission type</v-flex>
           <v-flex xs6>{{vehicle.vehicleType}}</v-flex>
-          <v-flex xs12 md6></v-flex>
           <v-flex xs12 md6>
             <v-tabs v-model="activeCarTracker" color="primary" dark slider-color="warning">
               <v-tab
@@ -33,19 +49,7 @@
             </v-tabs>
           </v-flex>
           <v-flex xs12 md6>
-            <v-tabs v-model="activeOwnerCredential" color="primary" dark slider-color="warning">
-              <v-tab
-                v-for="(ownerCredential, index) in vehicle.ownerCredentials"
-                :key="`tab-${index}`"
-                ripple
-              >{{ownerCredential.name}}</v-tab>
-              <v-tab-item
-                v-for="(ownerCredential, index) in vehicle.ownerCredentials"
-                :key="`tab-item-${index}`"
-              >
-                <owner-credential class="mt-2 ml-4" :oc="ownerCredential"></owner-credential>
-              </v-tab-item>
-            </v-tabs>
+            <owner-credential class="mt-2 ml-4" :oc="vehicle.ownerCredentials"></owner-credential>
           </v-flex>
           <v-flex xs12>
             <bills v-if="bills" :bs="bills" class="mt-2"></bills>
@@ -96,6 +100,11 @@
           </v-list>
         </v-menu>
 
+        <v-btn color="accent" @click="viewOwnershipHistory()" v-if="$userHasRole('admin')">
+          Ownership History
+          <v-icon right small>fas fa-eye</v-icon>
+        </v-btn>
+
         <v-btn
           color="accent"
           @click="getBillsByVehicleId()"
@@ -122,7 +131,8 @@ export default {
       activeCarTracker: null,
       ownerCredentials: null,
       carTrackers: null,
-      bills: null
+      bills: null,
+      ownershipHistory: null
     };
   },
   methods: {
@@ -192,6 +202,20 @@ export default {
         })
         .catch(err => {
           this.$store.dispatch("errorMessage", "Error changing car tracker");
+        });
+    },
+    viewOwnershipHistory() {
+      this.$store
+        .dispatch("getOwnershipHistory", this.vehicle.licencePlate)
+        .then(res => {
+          this.ownershipHistory = res;
+        })
+        .catch(err => {
+          console.log(err);
+          this.$store.dispatch(
+            "errorMessage",
+            "Error getting ownership history"
+          );
         });
     }
   },

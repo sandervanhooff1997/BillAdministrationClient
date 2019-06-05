@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4">
     <v-btn color="accent" @click="add()" v-if="!adding">Add</v-btn>
-    <div v-if="adding" class="white pa-3" light>
+    <div v-show="adding" class="white pa-3" light>
       <v-btn color="warning" class="mb-2" @click="cancel()">Cancel</v-btn>
       <v-form v-model="valid">
         <h3 class="title">New price</h3>
