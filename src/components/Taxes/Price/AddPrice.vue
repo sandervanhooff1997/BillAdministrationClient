@@ -1,16 +1,19 @@
 <template>
   <div class="mb-4">
-    <v-btn color="accent" @click="add()" v-if="!adding">Add</v-btn>
+    <v-btn color="accent" @click="add()" v-if="!adding">
+      <span v-if="rushHour">Update price (rush hour)</span>
+      <span v-else>Update price</span>
+    </v-btn>
     <div v-show="adding" class="white pa-3" light>
       <v-btn color="warning" class="mb-2" @click="cancel()">Cancel</v-btn>
       <v-form v-model="valid">
-        <h3 class="title">New price</h3>
+        <h3 class="title black--text">New price</h3>
         <v-text-field
           type="number"
           class="mb-1"
           light
           :rules="priceRules"
-          v-model="price.price"
+          v-model="price"
           clearable
           label="Amount"
           required
@@ -26,9 +29,7 @@ export default {
   props: ["rushHour"],
   data() {
     return {
-      price: {
-        price: ""
-      },
+      price: null,
       adding: false,
       valid: false,
       priceRules: [v => !!v || "Amount is required"]
@@ -36,7 +37,7 @@ export default {
   },
   methods: {
     resetForm() {
-      this.price.price = null;
+      this.price = null;
       this.adding = false;
     },
     add() {
@@ -49,23 +50,35 @@ export default {
       if (this.rushHour) {
         this.$store
           .dispatch("addRushHourPriceToRoad", price)
-          .then(() => {
-            this.resetForm();
+          .then(newPrice => {
             this.$store.dispatch("getPrices");
+            this.resetForm();
+            let road = this.$store.getters.road;
+            if (road) {
+              road.rushPrice = newPrice;
+              this.$store.commit("setRoad", Object.assign(road));
+            }
           })
-          .catch(err =>
-            this.$store.dispatch("errorMessage", "Error getting prices")
-          );
+          .catch(err => {
+            console.log(err);
+            this.$store.dispatch("errorMessage", "Error getting prices");
+          });
       } else {
         this.$store
           .dispatch("addPriceToRoad", price)
-          .then(() => {
-            this.resetForm();
+          .then(newPrice => {
             this.$store.dispatch("getPrices");
+            this.resetForm();
+            let road = this.$store.getters.road;
+            if (road) {
+              road.price = newPrice;
+              this.$store.commit("setRoad", Object.assign(road));
+            }
           })
-          .catch(err =>
-            this.$store.dispatch("errorMessage", "Error getting prices")
-          );
+          .catch(err => {
+            console.log(err);
+            this.$store.dispatch("errorMessage", "Error getting prices");
+          });
       }
     }
   }

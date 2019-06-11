@@ -130,23 +130,47 @@ export default {
 
             })
         },
-        async addPriceToRoad({ commit, getters }, price) {
+        async addPriceToRoad({ commit, getters, dispatch }, newPrice) {
             commit('setLoading', true)
 
-            if (!price.price || !getters.road)
+            if (!newPrice || !getters.road)
                 return;
 
             try {
-                let price = await dispatch('addPrice', { price: road.price })
+                let price = await dispatch('addPrice', { price: newPrice })
 
                 let payload = {
                     roadId: getters.road.id,
                     priceId: price.id
                 }
 
-                let res = await AxiosInstance.put("/road", payload)
+                await AxiosInstance.put("/road/addprice", payload)
+
                 commit('setLoading', false)
-                return res.data
+                return price
+            } catch (e) {
+                return 'Error creating road'
+            }
+        },
+
+        async addRushHourPriceToRoad({ commit, getters, dispatch }, newPrice) {
+            commit('setLoading', true)
+
+            if (!newPrice || !getters.road)
+                return;
+
+            try {
+                let price = await dispatch('addPrice', { price: newPrice })
+
+                let payload = {
+                    roadId: getters.road.id,
+                    priceId: price.id
+                }
+
+                await AxiosInstance.put("/road/addrushprice", payload)
+
+                commit('setLoading', false)
+                return price
             } catch (e) {
                 return 'Error creating road'
             }
