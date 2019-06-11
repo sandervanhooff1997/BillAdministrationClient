@@ -148,11 +148,12 @@ export default {
       this.$store
         .dispatch("transferOwnershipVehicle", payload)
         .then(() => {
-          this.vehicle.ownerCredentials.push(ownerCredential);
+          this.vehicle.ownerCredentials = ownerCredential;
           this.getOwnerCredentialsUnused();
           this.$store.dispatch("successMessage", "Ownership transferred");
         })
         .catch(err => {
+          console.log(err);
           this.$store.dispatch("errorMessage", "Error transferring ownership");
         });
     },
