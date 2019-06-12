@@ -1,4 +1,5 @@
 import AxiosInstance from '@/vuex/axios-config'
+import AxiosMovementInstance from '@/vuex/axios-config-movement'
 
 export default {
     state: {
@@ -43,6 +44,26 @@ export default {
         }
     },
     actions: {
+        async generateBills({ commit, dispatch }, monthIndex) {
+            if (!monthIndex) return;
+
+            try {
+                commit('setLoading', true)
+                let res = await AxiosMovementInstance.get('movement/month/' + monthIndex);
+                if (!res.data) throw Exception('No movements found')
+                let movements = res.data;
+                console.log(movements.map(x => x.address))
+
+                await AxiosInstance.post("/bill/generate", movements)
+                await dispatch('getBills')
+                return;
+            } catch (e) {
+                console.log(e)
+                return e;
+            } finally {
+                commit('setLoading', false)
+            }
+        },
         getBills({ commit }) {
             return new Promise((resolve, reject) => {
                 commit('setLoading', true)
@@ -115,53 +136,5 @@ export default {
                     .finally(() => commit('setLoading', false))
             });
         },
-        generateBills({ commit }) {
-            return new Promise((resolve, reject) => {
-                commit('setLoading', true)
-
-                var movements = [
-                    {
-                        "id": "1",
-                        "serialNumber": "4",
-                        "authorisationCode": "",
-                        "carTracker": {
-                            "id": "2",
-                            "mileage": "90",
-                            "hardware": "i7",
-                            "isDeleted": "false"
-                        }
-                    },
-                    {
-                        "id": "2",
-                        "serialNumber": "2",
-                        "authorisationCode": "",
-                        "carTracker": {
-                            "id": "2",
-                            "mileage": "100",
-                            "hardware": "i7",
-                            "isDeleted": "false"
-                        }
-                    },
-                    {
-                        "id": "3",
-                        "serialNumber": "3",
-                        "authorisationCode": "",
-                        "carTracker": {
-                            "id": "2",
-                            "mileage": "110",
-                            "hardware": "i7",
-                            "isDeleted": "false"
-                        }
-                    }
-                ];
-
-                AxiosInstance.post("/bill/generate", movements).then(res => {
-                    console.log(res)
-                    resolve()
-                }).catch(err => {
-                    reject(err)
-                }).finally(() => commit('setLoading', false))
-            })
-        }
     }
 }
