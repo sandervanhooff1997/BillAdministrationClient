@@ -21,15 +21,11 @@
           <v-flex xs6>Payment Status</v-flex>
           <v-flex xs6>{{bill.paymentStatus }}</v-flex>
 
-          <v-flex xs12 md6>
-            <car-tracker class="mt-2 ml-4" v-if="bill.carTracker" :ct="bill.carTracker"></car-tracker>
+          <v-flex xs12 sm6 v-if="bill.carTracker">
+            <car-tracker class="mt-2 ml-4" :ct="bill.carTracker"></car-tracker>
           </v-flex>
-          <v-flex xs12 md6>
-            <owner-credential
-              class="mt-2 ml-4"
-              v-if="bill.ownerCredentials"
-              :oc="bill.ownerCredentials"
-            ></owner-credential>
+          <v-flex xs12 sm6 v-if="bill.ownerCredentials">
+            <owner-credential class="mt-2 ml-4" :oc="bill.ownerCredentials"></owner-credential>
           </v-flex>
         </v-layout>
         <v-container v-if="bill.problems && bill.problems.length" text-xs-right>
@@ -96,8 +92,10 @@ export default {
       if (!bill) return;
 
       this.$store
-        .dispatch("recalculateBill", bill.id)
-        .then(() => {
+        .dispatch("recalculateBill", bill)
+        .then(newBill => {
+          this.$store.commit("setBill", newBill);
+          this.$store.dispatch("getBills");
           this.$store.dispatch("successMessage", "Bill recalculated");
         })
         .catch(err => {

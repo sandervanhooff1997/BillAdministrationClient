@@ -52,7 +52,6 @@ export default {
                 let res = await AxiosMovementInstance.get('movement/month/' + monthIndex);
                 if (!res.data) throw Exception('No movements found')
                 let movements = res.data;
-                console.log(movements.map(x => x.address))
 
                 await AxiosInstance.post("/bill/generate", movements)
                 await dispatch('getBills')
@@ -83,26 +82,48 @@ export default {
 
             })
         },
-        recalculateBill({ commit }, id) {
-            return new Promise((resolve, reject) => {
-                commit('setLoading', true)
+        async recalculateBill(context, bill) {
+            try {
+                if (!bill) throw 'Invalid data';
+                console.log(bill)
+                context.commit('setLoading', true)
 
-                if (!id)
-                    reject();
+                let carTrackerIds = bill.carTrackers.map(x => `id=${x.id}&`);
 
-                AxiosInstance.get(`/bill/${id}/recalculate`).then(res => {
+                let movementsRes = await AxiosMovementInstance.get(`movement/month/${bill.monthIndex}/cartracker?${carTrackerIds}`)
 
-                    if (res && res.data) {
-                        resolve(res.data)
-                    }
+                if (!movementsRes.data || !Array.isArray(movementsRes.data))
+                    throw 'Invalid data'
 
-                    reject()
-                }).catch(err => {
+                let billRes = await AxiosInstance.post("/bill/recalculate", {
+                    billId: bill.id,
+                    movements: movementsRes.data
+                })
 
-                    reject(err)
-                }).finally(() => commit('setLoading', false))
+                return billRes.data;
+            } catch (e) {
+                console.log(e)
+                context.dispatch('errorMessage', 'Error recalculating bill')
+            } finally {
+                context.commit('setLoading', false)
+            }
 
-            })
+            // if (!id)
+            //     reject();
+
+            // AxiosInstance.get(`/bill/${id}/recalculate`).then(res => {
+
+            //     if (res && res.data) {
+            //         resolve(res.data)
+            //     }
+
+            //     reject()
+            // }).catch(err => {
+
+            //     reject(err)
+            // }).finally(() => commit('setLoading', false))
+
+            // })
         },
         getBillsByVehicleId({ commit }, vehicleId) {
             return new Promise((resolve, reject) => {
