@@ -5,7 +5,6 @@
       <span v-else>Update price</span>
     </v-btn>
     <div v-show="adding" class="white pa-3" light>
-      <v-btn color="warning" class="mb-2" @click="cancel()">Cancel</v-btn>
       <v-form v-model="valid">
         <h3 class="title black--text">New price</h3>
         <v-text-field
@@ -18,6 +17,7 @@
           label="Amount"
           required
         ></v-text-field>
+        <v-btn color="warning" @click="cancel()">Cancel</v-btn>
         <v-btn color="primary" :disabled="!valid" @click="save(price)">Save</v-btn>
       </v-form>
     </div>

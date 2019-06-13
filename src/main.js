@@ -46,6 +46,9 @@ Vue.component('prices', Prices)
 import Price from '@/components/Taxes/Price/Price'
 Vue.component('price', Price)
 
+import DefaultPrice from '@/components/Taxes/Price/DefaultPrice'
+Vue.component('default-price', DefaultPrice)
+
 import AddPrice from '@/components/Taxes/Price/AddPrice'
 Vue.component('add-price', AddPrice)
 

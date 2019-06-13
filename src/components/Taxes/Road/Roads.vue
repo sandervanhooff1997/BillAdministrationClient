@@ -1,6 +1,16 @@
 <template>
   <v-container>
     <add-road></add-road>
+    <v-container>
+      <v-layout>
+        <v-flex xs12 sm6>
+          <default-price></default-price>
+        </v-flex>
+        <v-flex xs12 sm6>
+          <default-price :rush-price="true"></default-price>
+        </v-flex>
+      </v-layout>
+    </v-container>
     <div v-if="roads">
       <v-card flat>
         <v-data-table :headers="headers" :items="roads" class="elevation-1">

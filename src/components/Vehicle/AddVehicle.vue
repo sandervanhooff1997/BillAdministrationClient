@@ -6,12 +6,14 @@
       <v-form v-model="valid">
         <h3 class="title">New vehicle</h3>
         <v-text-field
-          :rules="licencePlateRules"
+          v-validate="'required|min:6|max:6'"
           v-model="vehicle.licencePlate"
           clearable
           label="Licenceplate"
+          name="licensePlate"
           required
         ></v-text-field>
+        <span class="red--text">{{ errors.first('licensePlate') }}</span>
         <v-select
           :items="vehicleTypes"
           v-model="vehicle.vehicleType"
@@ -52,7 +54,6 @@ export default {
       vehicleTypes: ["ELECTRIC", "COMBUSTION"],
       adding: false,
       valid: false,
-      licencePlateRules: [v => !!v || "Licenceplate is required"],
       carTrackerRules: [v => !!v || "Car tracker is required"]
     };
     carTrackers: [];

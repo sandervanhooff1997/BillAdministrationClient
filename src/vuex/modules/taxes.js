@@ -175,5 +175,40 @@ export default {
                 return 'Error creating road'
             }
         },
+
+        async createOrUpdateDefaultPrice(context, payload) {
+            try {
+                if (!payload.price) throw 'Invalid data: price not set'
+
+                let res = await AxiosInstance.post('/price/default', payload);
+                return res.data;
+            } catch (e) {
+                console.log(e);
+                context.dispatch("errorMessage", "Error updating default price");
+                throw e;
+            }
+        },
+
+        async getDefaultPrice(context) {
+            try {
+                let res = await AxiosInstance.get('/price/default');
+                return res.data;
+            } catch (e) {
+                console.log(e);
+                context.dispatch("errorMessage", "Error getting default price");
+                return null;
+            }
+        },
+
+        async getDefaultRushPrice(context) {
+            try {
+                let res = await AxiosInstance.get('/price/defaultrush');
+                return res.data;
+            } catch (e) {
+                console.log(e);
+                context.dispatch("errorMessage", "Error getting default rush price");
+                return null;
+            }
+        }
     }
 }
