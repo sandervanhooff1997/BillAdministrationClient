@@ -159,8 +159,12 @@ export default {
     },
     getOwnerCredentialsUnused() {
       this.$store
-        .dispatch("getOwnerCredentialsUnused")
-        .then(ownerCredentials => (this.ownerCredentials = ownerCredentials))
+        .dispatch("getOwnerCredentials")
+        .then(ownerCredentials => {
+          this.ownerCredentials = ownerCredentials.filter(
+            x => x.id !== this.vehicle.ownerCredentials.id
+          );
+        })
         .catch(err => {
           this.$store.dispatch(
             "errorMessage",
