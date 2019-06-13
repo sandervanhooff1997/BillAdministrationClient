@@ -51,8 +51,9 @@
           <v-flex xs12 md6>
             <owner-credential class="mt-2 ml-4" :oc="vehicle.ownerCredentials"></owner-credential>
           </v-flex>
-          <v-flex xs12>
-            <bills v-if="bills" :bs="bills" class="mt-2"></bills>
+          <v-flex xs12 v-if="bills">
+            <v-btn color="accent" @click="bills = null">close</v-btn>
+            <bills :bs="bills" class="mt-2"></bills>
           </v-flex>
         </v-layout>
       </v-card-text>
