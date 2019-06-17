@@ -48,7 +48,7 @@
         </v-layout>
       </v-container>
 
-      <div v-if="billsFiltered">
+      <div v-if="billsFiltered && Array.isArray(billsFiltered)">
         <v-data-table :headers="headers" :items="billsFiltered" light class="elevation-1">
           <template v-slot:items="props">
             <tr @click="selectBill(props.item)">
@@ -71,10 +71,12 @@
 </template>
 
 <script>
+import { setTimeout } from "timers";
 export default {
   props: ["bs"],
   data() {
     return {
+      billsFiltered: null,
       selectedMonth: null,
       headers: [
         { text: "ID #", value: "id" },
@@ -93,11 +95,11 @@ export default {
     };
   },
   computed: {
-    billsFiltered() {
-      if (this.bs) return this.filterBills(this.bs);
+    // async billsFiltered() {
+    //   if (this.bs) return await this.filterBills(this.bs);
 
-      return this.filterBills(this.$store.getters.bills);
-    },
+    //   return await this.filterBills(this.$store.getters.bills);
+    // },
     months() {
       return this.$store.getters.months;
     },
@@ -111,30 +113,56 @@ export default {
       return this.$store.getters.ownerCredentials;
     }
   },
+  watch: {
+    filters: {
+      deep: true,
+      handler: async function() {
+        let bills = this.bs || this.$store.getters.bills;
+
+        this.filterBills(bills);
+      }
+    }
+  },
   methods: {
     selectBill(bill) {
       this.$store.commit("setBill", bill);
     },
-    filterBills(bills) {
+    async filterBills(bills) {
       let self = this;
 
-      if (this.filters.carTracker)
-        bills = bills.filter(x => x.carTracker.id === self.filters.carTracker);
+      this.$store.commit("setLoading", true);
 
-      if (this.filters.ownerCredentials)
-        bills = bills.filter(
-          x => x.ownerCredentials.id === self.filters.ownerCredentials
-        );
+      setTimeout(() => {
+        this.$store.commit("setLoading", false);
 
-      if (this.filters.paymentStatus)
-        bills = bills.filter(
-          x => x.paymentStatus === self.filters.paymentStatus
-        );
+        if (
+          !this.filters.carTracker &&
+          !this.filters.ownerCredentials &&
+          !this.filters.paymentStatus &&
+          !this.filters.month
+        )
+          bills = [];
 
-      if (this.filters.month)
-        bills = bills.filter(x => x.monthName === self.filters.month);
+        if (this.filters.carTracker)
+          bills = bills.filter(
+            x => x.carTracker.id === self.filters.carTracker
+          );
 
-      return bills;
+        if (this.filters.ownerCredentials)
+          bills = bills.filter(
+            x => x.ownerCredentials.id === self.filters.ownerCredentials
+          );
+
+        if (this.filters.paymentStatus)
+          bills = bills.filter(
+            x => x.paymentStatus === self.filters.paymentStatus
+          );
+
+        if (this.filters.month)
+          bills = bills.filter(x => x.monthName === self.filters.month);
+
+        this.billsFiltered = bills;
+      }, Math.floor(Math.random() * Math.floor(1000)));
     },
     async generateBills() {
       if (!this.selectedMonth) return;
